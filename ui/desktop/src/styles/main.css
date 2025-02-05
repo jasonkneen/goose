@@ -87,11 +87,8 @@
       1
     );
     --spring-duration: 1.333s;
-
-    /* custom slate */
+    /* Color Variables */
     --slate: #393838;
-
-    /* block */
     --block-teal: #13bbaf;
     --block-orange: #ff4f00;
 
