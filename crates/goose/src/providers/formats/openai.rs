@@ -195,6 +195,11 @@ pub fn response_to_message(response: Value) -> anyhow::Result<Message> {
                     ));
                     content.push(MessageContent::tool_request(id, Err(error)));
                 } else {
+                    let arguments = if arguments.is_empty() {
+                        "{}".to_string()
+                    } else {
+                        arguments
+                    };
                     match serde_json::from_str::<Value>(&arguments) {
                         Ok(params) => {
                             content.push(MessageContent::tool_request(
