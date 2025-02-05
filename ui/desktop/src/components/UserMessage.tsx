@@ -8,7 +8,7 @@ export default function UserMessage({ message }) {
   const urls = extractUrls(message.content, []);
 
   return (
-    <div className="user-message flex justify-end mt-[16px] w-full opacity-0 animate-[appear_150ms_ease-in_forwards] user-message-bg">
+    <div className="user-message flex justify-end mt-[16px] w-full animate-[appear_150ms_ease-in_forwards] user-message-bg">
       <div className="flex-col max-w-[85%]">
         <div className="flex text-white rounded-xl rounded-br-none py-2 px-3 message-content">
           <MarkdownContent content={message.content} className="text-black" />
