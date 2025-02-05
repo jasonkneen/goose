@@ -18,6 +18,16 @@ impl<T: TransportHandle> McpService<T> {
             inner: Arc::new(transport),
         }
     }
+
+    pub async fn cancel(&self, request_id: &str) -> Result<(), Error> {
+        let cancel_message = JsonRpcMessage::Notification(JsonRpcNotification {
+            jsonrpc: "2.0".to_string(),
+            method: "cancel".to_string(),
+            params: Some(json!({ "request_id": request_id })),
+        });
+
+        self.inner.send(cancel_message).await.map(|_| ())
+    }
 }
 
 impl<T> Service<JsonRpcMessage> for McpService<T>

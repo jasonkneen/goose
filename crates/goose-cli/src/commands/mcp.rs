@@ -5,6 +5,7 @@ use goose_mcp::{
 use mcp_server::router::RouterService;
 use mcp_server::{BoundedService, ByteTransport, Server};
 use tokio::io::{stdin, stdout};
+use tokio::time::{timeout, Duration};
 
 pub async fn run_server(name: &str) -> Result<()> {
     // Initialize logging
@@ -29,5 +30,15 @@ pub async fn run_server(name: &str) -> Result<()> {
     let transport = ByteTransport::new(stdin(), stdout());
 
     tracing::info!("Server initialized and ready to handle requests");
-    Ok(server.run(transport).await?)
+
+    // Add timeout and cancellation handling
+    let server_future = server.run(transport);
+    match timeout(Duration::from_secs(30), server_future).await {
+        Ok(result) => result,
+        Err(_) => {
+            tracing::warn!("Timeout occurred while running the server");
+            // Handle cancellation logic here if needed
+            Ok(())
+        }
+    }
 }

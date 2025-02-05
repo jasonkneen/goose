@@ -11,6 +11,7 @@ use goose::providers::create;
 use std::path::Path;
 
 use mcp_client::transport::Error as McpClientError;
+use tokio::time::{timeout, Duration};
 
 pub async fn build_session(
     name: Option<String>,
@@ -175,4 +176,59 @@ fn display_session_info(resume: bool, provider: &str, model: &str, session_file:
         style("logging to").dim(),
         style(session_file.display()).dim().cyan(),
     );
+}
+
+// Add timeout mechanism using `tokio::time::timeout` in `agent_process_messages` function
+impl<'a> Session<'a> {
+    async fn agent_process_messages(&mut self) {
+        let mut stream = match self.agent.reply(&self.messages).await {
+            Ok(stream) => stream,
+            Err(e) => {
+                eprintln!("Error starting reply stream: {}", e);
+                return;
+            }
+        };
+
+        loop {
+            tokio::select! {
+                response = timeout(Duration::from_secs(30), stream.next()) => {
+                    match response {
+                        Ok(Some(Ok(message))) => {
+                            self.messages.push(message.clone());
+                            persist_messages(&self.session_file, &self.messages).unwrap_or_else(|e| eprintln!("Failed to persist messages: {}", e));
+                            self.prompt.hide_busy();
+                            self.prompt.render(Box::new(message.clone()));
+                            self.prompt.show_busy();
+                        }
+                        Ok(Some(Err(e))) => {
+                            eprintln!("Error: {}", e);
+                            drop(stream);
+                            self.rewind_messages();
+                            self.prompt.render(raw_message(r#"
+The error above was an exception we were not able to handle.\n\n
+These errors are often related to connection or authentication\n
+We've removed the conversation up to the most recent user message
+ - depending on the error you may be able to continue"#));
+                            break;
+                        }
+                        Ok(None) => break,
+                        Err(_) => {
+                            eprintln!("Timeout occurred while waiting for response");
+                            drop(stream);
+                            self.handle_interrupted_messages();
+                            break;
+                        }
+                    }
+                }
+                _ = tokio::signal::ctrl_c() => {
+                    // Kill any running processes when the client disconnects
+                    // TODO is this used? I suspect post MCP this is on the server instead
+                    // goose::process_store::kill_processes();
+                    drop(stream);
+                    self.handle_interrupted_messages();
+                    break;
+                }
+            }
+        }
+    }
 }
