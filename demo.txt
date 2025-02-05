@@ -1,0 +1,3 @@
+Greetings! This is an updated demo file.
+It contains multiple lines of text.
+We can write and read files using the text editor tool.
