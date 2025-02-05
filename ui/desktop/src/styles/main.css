@@ -6,7 +6,7 @@
 /* User Message Background */
 
 .dark .user-message-bg {
-  background-color: #1a1f28;
+  background-color: #10151d;
 }
 
 /* Message Content Styling */
@@ -15,7 +15,7 @@
 }
 
 .dark .message-content {
-  background-color: #89701c;
+  background-color: #ff4f00;
   color: #ffffff;
 }
 
@@ -95,9 +95,9 @@
     --block-teal: #13bbaf;
     --block-orange: #ff4f00;
 
-    /* start arcade colors */
+    /* Light Mode Colors */
     --constant-white: #ffffff;
-    --constant-black: #1a1f28;
+    --constant-black: #000000;
     --grey-10: #101010;
     --grey-20: #1e1e1e;
     --grey-50: #666666;
@@ -115,6 +115,7 @@
     --dark-grey-60: #c9d1d9;
     --dark-grey-90: #f0f6fc;
 
+    /* Light Mode Defaults */
     --background-app: var(--constant-white);
     --background-prominent: var(--grey-80);
     --background-standard: var(--grey-90);
@@ -166,7 +167,32 @@
   }
 }
 
+:root.dark {
+  --background-app: var(--dark-grey-15);
+  --background-prominent: var(--dark-grey-40);
+  --background-standard: var(--dark-grey-25);
+  --background-subtle: var(--dark-grey-30);
+}
+
 @layer components {
+  /* Rounded Elements Styling */
+  [class*='rounded'],
+  .card,
+  .button,
+  .panel {
+    position: relative;
+  }
+
+  [class*='rounded']::after,
+  .card::after,
+  .button::after,
+  .panel::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+  }
   .titlebar-drag-region {
     -webkit-app-region: drag;
     height: 32px;
@@ -176,11 +202,9 @@
     left: 0;
     z-index: 50;
   }
-
   .no-drag {
     -webkit-app-region: no-drag;
   }
-
   .bg-inline-code {
     border-radius: 4px;
     color: rgba(255, 130, 130, 0.85);
@@ -208,9 +232,20 @@
     content: '';
   }
 
+  /* Inline Code Styling */
+  .bg-inline-code {
+    border-radius: 4px;
+    color: rgba(255, 130, 130, 0.85);
+    font-family: 'Square Sans Mono';
+    font-size: 12px;
+    font-weight: 400;
+    line-height: normal;
+  }
+
   .dark .bg-inline-code {
     color: rgba(248, 155, 89, 0.7);
   }
+
   /* Card Styling */
   .card {
     @apply rounded-xl p-4 bg-white shadow-sm;
@@ -230,6 +265,6 @@
 
   .dark .panel {
     background: var(--background-standard);
-    box-shadow: 0 0 0 1px rgba(240, 246, 252, 0.1);
+    box-shadow: 0 0 0 1px rgba(240, 246, 252, 0);
   }
 }
