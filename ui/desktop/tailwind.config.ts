@@ -49,26 +49,48 @@ export default {
         'gradient-loader': 'loader 750ms ease-in-out infinite',
       },
       colors: {
+        // Background colors
         bgApp: 'var(--background-app)',
         bgSubtle: 'var(--background-subtle)',
         bgStandard: 'var(--background-standard)',
         bgProminent: 'var(--background-prominent)',
 
+        // Border colors
         borderSubtle: 'var(--border-subtle)',
         borderStandard: 'var(--border-standard)',
 
+        // Text colors
         textProminent: 'var(--text-prominent)',
         textStandard: 'var(--text-standard)',
         textSubtle: 'var(--text-subtle)',
         textPlaceholder: 'var(--text-placeholder)',
 
+        // Icon colors
         iconProminent: 'var(--icon-prominent)',
         iconStandard: 'var(--icon-standard)',
         iconSubtle: 'var(--icon-subtle)',
         iconExtraSubtle: 'var(--icon-extra-subtle)',
+
+        // Custom colors
         slate: 'var(--slate)',
         blockTeal: 'var(--block-teal)',
         blockOrange: 'var(--block-orange)',
+
+        // Dark mode specific colors
+        'dark-grey-15': '#1E1E1E',
+        'dark-grey-25': '#262626',
+        'dark-grey-30': '#2E2E2E',
+        'dark-grey-40': '#363636',
+        'dark-grey-45': '#6E6E6E',
+        'dark-grey-60': '#8E8E8E',
+        'dark-grey-90': '#E6E6E6',
+      },
+      // Add box shadow utilities
+      boxShadow: {
+        'dark-sm': '0 1px 2px 0 rgba(0, 0, 0, 0.05), inset 0 0 0 1px rgba(255, 255, 255, 0.1)',
+        'dark': '0 1px 3px 0 rgba(0, 0, 0, 0.1), inset 0 0 0 1px rgba(255, 255, 255, 0.1)',
+        'dark-md': '0 4px 6px -1px rgba(0, 0, 0, 0.1), inset 0 0 0 1px rgba(255, 255, 255, 0.1)',
+        'dark-lg': '0 10px 15px -3px rgba(0, 0, 0, 0.1), inset 0 0 0 1px rgba(255, 255, 255, 0.1)',
       },
     },
   },

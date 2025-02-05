@@ -1,9 +1,29 @@
+/* stylelint-disable at-rule-no-unknown, rule-empty */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* Cash Sans */
+/* User Message Background */
 
+.dark .user-message-bg {
+  background-color: #1a1f28;
+}
+
+/* Message Content Styling */
+.message-content {
+  background-color: #c2c2c2;
+}
+
+.dark .message-content {
+  background-color: #89701c;
+  color: #ffffff;
+}
+
+.user-message-bg {
+  background-color: #ffffff;
+}
+
+/* Cash Sans Font */
 @font-face {
   font-family: Cash Sans;
   src: url(https://cash-f.squarecdn.com/static/fonts/cashsans/woff2/CashSans-Regular.woff2)
@@ -21,7 +41,7 @@
 }
 
 @font-face {
-  font-family: Cash Sans;
+  font-family: 'Cash Sans';
   src: url(https://cash-f.squarecdn.com/static/fonts/cashsans/woff2/CashSans-Semibold.woff2)
     format('woff2');
   font-weight: 600;
@@ -29,7 +49,7 @@
 }
 
 @font-face {
-  font-family: Cash Sans;
+  font-family: 'Cash Sans';
   src: url(https://cash-f.squarecdn.com/static/fonts/cashsans/woff2/CashSans-Bold.woff2)
     format('woff2');
   font-weight: 700;
@@ -77,7 +97,7 @@
 
     /* start arcade colors */
     --constant-white: #ffffff;
-    --constant-black: #000000;
+    --constant-black: #1a1f28;
     --grey-10: #101010;
     --grey-20: #1e1e1e;
     --grey-50: #666666;
@@ -86,13 +106,14 @@
     --grey-85: #dadada;
     --grey-90: #e8e8e8;
     --grey-95: #f0f0f0;
-    --dark-grey-15: #1a1a1a;
-    --dark-grey-25: #232323;
-    --dark-grey-30: #2a2a2a;
-    --dark-grey-40: #333333;
-    --dark-grey-45: #595959;
-    --dark-grey-60: #878787;
-    --dark-grey-90: #e1e1e1;
+    /* Dark Mode Colors */
+    --dark-grey-15: #10151d;
+    --dark-grey-25: #1a1f28;
+    --dark-grey-30: #252b33;
+    --dark-grey-40: #363d45;
+    --dark-grey-45: #8b949e;
+    --dark-grey-60: #c9d1d9;
+    --dark-grey-90: #f0f6fc;
 
     --background-app: var(--constant-white);
     --background-prominent: var(--grey-80);
@@ -189,5 +210,26 @@
 
   .dark .bg-inline-code {
     color: rgba(248, 155, 89, 0.7);
+  }
+  /* Card Styling */
+  .card {
+    @apply rounded-xl p-4 bg-white shadow-sm;
+  }
+
+  .dark .card {
+    @apply bg-[#1a1f28];
+    box-shadow:
+      0 0 0 1px rgba(240, 246, 252, 0.1),
+      0 1px 0 rgba(255, 255, 255, 0.03);
+  }
+
+  /* Panel Styling */
+  .panel {
+    @apply rounded-lg px-4 py-3;
+  }
+
+  .dark .panel {
+    background: var(--background-standard);
+    box-shadow: 0 0 0 1px rgba(240, 246, 252, 0.1);
   }
 }
