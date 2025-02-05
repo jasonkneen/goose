@@ -1,9 +1,11 @@
 use super::base::Usage;
 use anyhow::Result;
 use regex::Regex;
-use reqwest::{Response, StatusCode};
+use reqwest::{Response, StatusCode, Certificate};
 use serde::{Deserialize, Serialize};
 use serde_json::{json, Map, Value};
+use std::fs::File;
+use std::io::Read;
 
 use crate::providers::errors::ProviderError;
 use mcp_core::content::ImageContent;
@@ -157,6 +159,14 @@ pub fn emit_debug_trace<T: serde::Serialize>(
         output_tokens = ?usage.output_tokens.unwrap_or_default(),
         total_tokens = ?usage.total_tokens.unwrap_or_default(),
     );
+}
+
+/// Load custom certificates from environment variables
+pub fn load_custom_certificates(cert_path: &str) -> Result<Certificate> {
+    let mut buf = Vec::new();
+    File::open(cert_path)?.read_to_end(&mut buf)?;
+    let cert = Certificate::from_pem(&buf)?;
+    Ok(cert)
 }
 
 #[cfg(test)]

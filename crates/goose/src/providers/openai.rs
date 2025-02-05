@@ -1,8 +1,10 @@
 use anyhow::Result;
 use async_trait::async_trait;
-use reqwest::Client;
+use reqwest::{Client, Certificate};
 use serde_json::Value;
 use std::time::Duration;
+use std::fs::File;
+use std::io::Read;
 
 use super::base::{ConfigKey, Provider, ProviderMetadata, ProviderUsage, Usage};
 use super::errors::ProviderError;
@@ -46,9 +48,17 @@ impl OpenAiProvider {
         let host: String = config
             .get("OPENAI_HOST")
             .unwrap_or_else(|_| "https://api.openai.com".to_string());
-        let client = Client::builder()
-            .timeout(Duration::from_secs(600))
-            .build()?;
+
+        let mut client_builder = Client::builder().timeout(Duration::from_secs(600));
+
+        if let Ok(cert_path) = config.get("OPENAI_CERT_PATH") {
+            let mut buf = Vec::new();
+            File::open(cert_path)?.read_to_end(&mut buf)?;
+            let cert = Certificate::from_pem(&buf)?;
+            client_builder = client_builder.add_root_certificate(cert);
+        }
+
+        let client = client_builder.build()?;
 
         Ok(Self {
             client,
@@ -93,6 +103,7 @@ impl Provider for OpenAiProvider {
             vec![
                 ConfigKey::new("OPENAI_API_KEY", true, true, None),
                 ConfigKey::new("OPENAI_HOST", false, false, Some("https://api.openai.com")),
+                ConfigKey::new("OPENAI_CERT_PATH", false, false, None),
             ],
         )
     }
