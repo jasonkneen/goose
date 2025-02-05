@@ -9,7 +9,7 @@ use serde_json::{json, Value};
 use std::collections::HashMap;
 use std::error::Error;
 
-pub async fn handle_configure() -> Result<(), Box<dyn Error>> {
+pub async fn handle_configure(color_mode: &str) -> Result<(), Box<dyn Error>> {
     let config = Config::global();
 
     if !config.exists() {
@@ -25,7 +25,7 @@ pub async fn handle_configure() -> Result<(), Box<dyn Error>> {
         );
         println!();
         cliclack::intro(style(" goose-configure ").on_cyan().black())?;
-        match configure_provider_dialog().await {
+        match configure_provider_dialog(color_mode).await {
             Ok(true) => {
                 println!(
                     "\n  {}: Run '{}' again to adjust your config or add extensions",
@@ -135,16 +135,16 @@ pub async fn handle_configure() -> Result<(), Box<dyn Error>> {
             .interact()?;
 
         match action {
-            "toggle" => toggle_extensions_dialog(),
-            "add" => configure_extensions_dialog(),
-            "providers" => configure_provider_dialog().await.and(Ok(())),
+            "toggle" => toggle_extensions_dialog(color_mode),
+            "add" => configure_extensions_dialog(color_mode),
+            "providers" => configure_provider_dialog(color_mode).await.and(Ok(())),
             _ => unreachable!(),
         }
     }
 }
 
 /// Dialog for configuring the AI provider and model
-pub async fn configure_provider_dialog() -> Result<bool, Box<dyn Error>> {
+pub async fn configure_provider_dialog(color_mode: &str) -> Result<bool, Box<dyn Error>> {
     // Get global config instance
     let config = Config::global();
 
@@ -315,7 +315,7 @@ pub async fn configure_provider_dialog() -> Result<bool, Box<dyn Error>> {
 
 /// Configure extensions that can be used with goose
 /// Dialog for toggling which extensions are enabled/disabled
-pub fn toggle_extensions_dialog() -> Result<(), Box<dyn Error>> {
+pub fn toggle_extensions_dialog(color_mode: &str) -> Result<(), Box<dyn Error>> {
     let extensions = ExtensionManager::get_all()?;
 
     if extensions.is_empty() {
@@ -361,7 +361,7 @@ pub fn toggle_extensions_dialog() -> Result<(), Box<dyn Error>> {
     Ok(())
 }
 
-pub fn configure_extensions_dialog() -> Result<(), Box<dyn Error>> {
+pub fn configure_extensions_dialog(color_mode: &str) -> Result<(), Box<dyn Error>> {
     let extension_type = cliclack::select("What type of extension would you like to add?")
         .item(
             "built-in",
@@ -452,7 +452,7 @@ pub fn configure_extensions_dialog() -> Result<(), Box<dyn Error>> {
                 cliclack::confirm("Would you like to add environment variables?").interact()?;
 
             let mut envs = HashMap::new();
-            if add_env {
+            if (add_env) {
                 loop {
                     let key: String = cliclack::input("Environment variable name:")
                         .placeholder("API_KEY")

@@ -21,10 +21,11 @@ pub struct RustylinePrompt {
     theme: Theme,
     renderers: HashMap<String, Box<dyn ToolRenderer>>,
     editor: DefaultEditor,
+    color_mode: String,
 }
 
 impl RustylinePrompt {
-    pub fn new() -> Self {
+    pub fn new(color_mode: &str) -> Self {
         let mut renderers: HashMap<String, Box<dyn ToolRenderer>> = HashMap::new();
         let default_renderer = DefaultRenderer;
         renderers.insert(default_renderer.tool_name(), Box::new(default_renderer));
@@ -61,6 +62,7 @@ impl RustylinePrompt {
                 .unwrap_or(Theme::Dark),
             renderers,
             editor,
+            color_mode: color_mode.to_string(),
         }
     }
 }

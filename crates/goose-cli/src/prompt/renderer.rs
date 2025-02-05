@@ -142,7 +142,7 @@ impl ToolRenderer for DefaultRenderer {
                 default_print_request_header(call);
 
                 // Format and print the parameters
-                print_params(&call.arguments, 0);
+                print_params(&call.arguments, 0, theme);
                 print_newline();
             }
             Err(e) => print_markdown(&e.to_string(), theme),
@@ -184,7 +184,7 @@ impl ToolRenderer for TextEditorRenderer {
                             other_args.insert(k.clone(), v.clone());
                         }
                     }
-                    print_params(&Value::Object(other_args), 0);
+                    print_params(&Value::Object(other_args), 0, theme);
                 }
                 print_newline();
             }
@@ -214,7 +214,7 @@ impl ToolRenderer for BashDeveloperExtensionRenderer {
                     Some(Value::String(s)) => {
                         println!("{}: {}", style("command").dim(), style(s).green());
                     }
-                    _ => print_params(&call.arguments, 0),
+                    _ => print_params(&call.arguments, 0, theme),
                 }
                 print_newline();
             }
@@ -326,17 +326,21 @@ pub fn default_print_request_header(call: &ToolCall) {
 }
 
 pub fn print_markdown(content: &str, theme: &str) {
-    bat::PrettyPrinter::new()
+    let mut printer = bat::PrettyPrinter::new()
         .input(bat::Input::from_bytes(content.as_bytes()))
         .theme(theme)
         .language("Markdown")
-        .wrapping_mode(WrappingMode::Character)
-        .print()
-        .unwrap();
+        .wrapping_mode(WrappingMode::Character);
+
+    if std::env::var("CLICLACK_COLOR_MODE").unwrap_or_default() == "base16" {
+        printer = printer.color_mode(bat::ColorMode::Ansi);
+    }
+
+    printer.print().unwrap();
 }
 
 /// Format and print parameters recursively with proper indentation and colors
-pub fn print_params(value: &Value, depth: usize) {
+pub fn print_params(value: &Value, depth: usize, theme: &str) {
     let indent = INDENT.repeat(depth);
 
     match value {
@@ -345,13 +349,13 @@ pub fn print_params(value: &Value, depth: usize) {
                 match val {
                     Value::Object(_) => {
                         println!("{}{}:", indent, style(key).dim());
-                        print_params(val, depth + 1);
+                        print_params(val, depth + 1, theme);
                     }
                     Value::Array(arr) => {
                         println!("{}{}:", indent, style(key).dim());
                         for item in arr.iter() {
                             println!("{}{}- ", indent, INDENT);
-                            print_params(item, depth + 2);
+                            print_params(item, depth + 2, theme);
                         }
                     }
                     Value::String(s) => {
@@ -376,7 +380,7 @@ pub fn print_params(value: &Value, depth: usize) {
         Value::Array(arr) => {
             for (i, item) in arr.iter().enumerate() {
                 println!("{}{}.", indent, i + 1);
-                print_params(item, depth + 1);
+                print_params(item, depth + 1, theme);
             }
         }
         Value::String(s) => {

@@ -26,6 +26,9 @@ struct Cli {
     #[arg(short = 'v', long = "version")]
     version: bool,
 
+    #[arg(long, value_name = "WHEN", default_value = "auto", value_parser = ["auto", "always", "never", "base16"], help = "Control color output")]
+    color: String,
+
     #[command(subcommand)]
     command: Option<Command>,
 }
@@ -162,6 +165,17 @@ async fn main() -> Result<()> {
     if cli.version {
         print_version();
         return Ok(());
+    }
+
+    match cli.color.as_str() {
+        "auto" => console::set_colors_enabled(true),
+        "always" => console::set_colors_enabled(true),
+        "never" => console::set_colors_enabled(false),
+        "base16" => {
+            console::set_colors_enabled(true);
+            std::env::set_var("CLICLACK_COLOR_MODE", "base16");
+        }
+        _ => unreachable!(),
     }
 
     match cli.command {

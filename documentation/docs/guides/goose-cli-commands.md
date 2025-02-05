@@ -80,6 +80,14 @@ Starts the session with the specified [built-in extension](/docs/getting-started
 goose session --with-builtin <name>
 ```
 
+- **`--color <WHEN>`**
+
+Control color output. Options: `auto` (default), `always`, `never`, and `base16`.
+
+```bash
+goose session --color <when>
+```
+
 ### run [options]
 
 Execute commands from an instruction file or stdin
@@ -88,6 +96,7 @@ Execute commands from an instruction file or stdin
 - **`-t, --text <TEXT>`**: Input text to provide to Goose directly  
 - **`-n, --name <NAME>`**: Name for this run session (e.g., 'daily-tasks')  
 - **`-r, --resume`**: Resume from a previous run  
+- **`--color <WHEN>`**: Control color output. Options: `auto` (default), `always`, `never`, and `base16`.
 
 **Usage:**
 ```bash
@@ -98,9 +107,7 @@ goose run --instructions plan.md
 
 Configure Goose settings - providers, extensions, etc.
 
-
-
 **Usage:**
 ```bash
-goose configure'
+goose configure
 ```
