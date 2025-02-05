@@ -251,11 +251,18 @@ pub fn render(message: &Message, theme: &Theme, renderers: HashMap<String, Box<d
                     .unwrap()
                     .request(tool_request, theme),
             },
-            MessageContent::ToolResponse(tool_response) => renderers
-                .get(last_tool_name)
-                .or_else(|| renderers.get("default"))
-                .unwrap()
-                .response(tool_response, theme),
+            MessageContent::ToolResponse(tool_response) => {
+                // Add a check to ensure the order of tool requests and responses
+                if !message.enforce_tool_call_order() {
+                    println!("Error: Tool result is not preceded by a tool call");
+                    return;
+                }
+                renderers
+                    .get(last_tool_name)
+                    .or_else(|| renderers.get("default"))
+                    .unwrap()
+                    .response(tool_response, theme)
+            },
             MessageContent::Image(image) => {
                 println!("Image: [data: {}, type: {}]", image.data, image.mime_type);
             }

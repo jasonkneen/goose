@@ -238,6 +238,11 @@ impl Agent for TruncateAgent {
                             );
                         }
 
+                        // Add a check to ensure tool results are always preceded by tool calls
+                        if !messages.iter().any(|msg| msg.get_tool_request_ids().contains(request.id.as_str())) {
+                            return Err(anyhow::anyhow!("Tool result is not preceded by a tool call"));
+                        }
+
                         yield message_tool_response.clone();
 
                         messages.push(response);

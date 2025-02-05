@@ -247,4 +247,12 @@ impl Message {
             .iter()
             .all(|c| matches!(c, MessageContent::Text(_)))
     }
+
+    /// Ensure tool results are always preceded by tool calls
+    pub fn enforce_tool_call_order(&self) -> bool {
+        let tool_request_ids = self.get_tool_request_ids();
+        let tool_response_ids = self.get_tool_response_ids();
+
+        tool_response_ids.is_subset(&tool_request_ids)
+    }
 }
