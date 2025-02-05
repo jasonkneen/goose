@@ -54,7 +54,7 @@ impl GroqProvider {
         })
     }
 
-    async fn post(&self, payload: Value) -> anyhow::Result<Value, ProviderError> {
+    async fn post(&self, payload: Value) -> Result<Value, ProviderError> {
         let base_url = Url::parse(&self.host)
             .map_err(|e| ProviderError::RequestFailed(format!("Invalid base URL: {e}")))?;
         let url = base_url.join("openai/v1/chat/completions").map_err(|e| {
@@ -127,7 +127,7 @@ impl Provider for GroqProvider {
         system: &str,
         messages: &[Message],
         tools: &[Tool],
-    ) -> anyhow::Result<(Message, ProviderUsage), ProviderError> {
+    ) -> Result<(Message, ProviderUsage), ProviderError> {
         let payload = create_request(
             &self.model,
             system,

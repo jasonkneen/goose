@@ -12,7 +12,7 @@ use std::error::Error;
 pub async fn handle_configure() -> Result<(), Box<dyn Error>> {
     let config = Config::global();
 
-    if !config.exists() {
+    if (!config.exists()) {
         // First time setup flow
         println!();
         println!(
