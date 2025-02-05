@@ -29,6 +29,11 @@
   color: #ffffff;
 }
 
+.dark .goose-message-tool {
+  background-color: rgb(31, 41, 55) !important;
+  border-color: rgb(31, 41, 55);
+}
+
 .dark .goose-message-tool .card {
   background-color: #0f1218;
 }
