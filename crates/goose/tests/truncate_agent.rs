@@ -1,5 +1,3 @@
-// src/lib.rs or tests/truncate_agent_tests.rs
-
 use anyhow::Result;
 use futures::StreamExt;
 use goose::agents::AgentFactory;
@@ -281,5 +279,48 @@ mod tests {
             context_window: 128_000,
         })
         .await
+    }
+
+    #[tokio::test]
+    async fn test_truncate_agent_missing_tool_result() -> Result<()> {
+        let provider_type = ProviderType::OpenAi;
+        let model = "gpt-4o-mini";
+        let context_window = 128_000;
+
+        let model_config = ModelConfig::new(model.to_string())
+            .with_context_limit(Some(context_window))
+            .with_temperature(Some(0.0));
+        let provider = provider_type.create_provider(model_config)?;
+
+        let agent = AgentFactory::create("truncate", provider).unwrap();
+        let messages = vec![
+            Message::user().with_text("hi there. what is 2 + 2?"),
+            Message::assistant().with_text("hey! I think it's 4."),
+            Message::user().with_text("Please use the tool to calculate 2 + 2."),
+            Message::assistant().with_tool_request("1", Ok(ToolCall::new("calculator", json!({"expression": "2 + 2"})))),
+        ];
+
+        let reply_stream = agent.reply(&messages).await?;
+        tokio::pin!(reply_stream);
+
+        let mut responses = Vec::new();
+        while let Some(response_result) = reply_stream.next().await {
+            match response_result {
+                Ok(response) => responses.push(response),
+                Err(e) => {
+                    println!("Error: {:?}", e);
+                    return Err(e);
+                }
+            }
+        }
+
+        println!("Responses: {responses:?}\n");
+        assert_eq!(responses.len(), 1);
+        assert_eq!(responses[0].content.len(), 1);
+
+        let response_text = responses[0].content[0].as_text().unwrap();
+        assert!(response_text.contains("Error: Missing `tool_result` block after `tool_use` block."));
+
+        Ok(())
     }
 }

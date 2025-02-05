@@ -242,6 +242,12 @@ impl Agent for TruncateAgent {
 
                         messages.push(response);
                         messages.push(message_tool_response);
+
+                        // Ensure messages following `tool_use` blocks begin with matching `tool_result` blocks
+                        if !message_tool_response.has_tool_result() {
+                            yield Message::assistant().with_text("Error: Missing `tool_result` block after `tool_use` block. Please ensure the message contains a matching `tool_result` block.");
+                            break;
+                        }
                     },
                     Err(ProviderError::ContextLengthExceeded(_)) => {
                         if truncation_attempt >= MAX_TRUNCATION_ATTEMPTS {

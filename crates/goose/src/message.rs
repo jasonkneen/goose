@@ -247,4 +247,11 @@ impl Message {
             .iter()
             .all(|c| matches!(c, MessageContent::Text(_)))
     }
+
+    /// Check if the message contains a `tool_result` block
+    pub fn has_tool_result(&self) -> bool {
+        self.content
+            .iter()
+            .any(|c| matches!(c, MessageContent::ToolResponse(_)))
+    }
 }
