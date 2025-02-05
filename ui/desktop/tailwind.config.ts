@@ -78,12 +78,12 @@ export default {
 
         // Dark mode specific colors
         'dark-grey-15': '#1E1E1E',
-        'dark-grey-25': '#262626',
-        'dark-grey-30': '#2E2E2E',
+        'dark-grey-25': '#1a1f28',
+        'dark-grey-30': '#252b33',
         'dark-grey-40': '#363636',
-        'dark-grey-45': '#6E6E6E',
-        'dark-grey-60': '#8E8E8E',
-        'dark-grey-90': '#E6E6E6',
+        'dark-grey-45': '#8b949e',
+        'dark-grey-60': '#c9d1d9',
+        'dark-grey-90': '#f0f6fc',
       },
       // Add box shadow utilities
       boxShadow: {

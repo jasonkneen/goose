@@ -11,13 +11,36 @@
 }
 
 /* Message Content Styling */
+/* Message Content Styling */
 .message-content {
   background-color: #c2c2c2;
 }
 
-.dark .message-content {
-  background-color: #89701c;
+.dark .message-content,
+.dark .goose-message-content,
+.dark .card,
+.dark .panel {
+  border: 0.5px solid rgba(255, 255, 255, 0.2);
+}
+
+/* Specific dark mode background colors */
+.dark .goose-message-content {
+  background-color: #0f1218 !important;
   color: #ffffff;
+}
+
+.dark .goose-message-tool .card {
+  background-color: #0f1218;
+}
+
+.dark .card {
+  background-color: #56450c;
+  color: #ffffff;
+}
+
+.dark .panel {
+  background: var(--background-standard);
+  color: var(--dark-grey-90);
 }
 
 .user-message-bg {
@@ -100,7 +123,7 @@
     --constant-white: #ffffff;
     --constant-black: #1a1f28;
     --grey-10: #101010;
-    --grey-20: #1e1e1e;
+    --grey-20: #0e1e1e;
     --grey-50: #666666;
     --grey-60: #959595;
     --grey-80: #cccccc;
@@ -141,7 +164,7 @@
     &.dark {
       --background-app: var(--constant-black);
       --background-prominent: var(--dark-grey-40);
-      --background-standard: var(--dark-grey-25);
+      --background-standard: var(--dark-grey-30);
       --background-subtle: var(--dark-grey-15);
 
       --border-divider: var(--dark-grey-25);
@@ -232,6 +255,7 @@
   .dark .panel {
     background: var(--background-standard);
     box-shadow: 0 0 0 1px rgba(240, 246, 252, 0.1);
+    color: var(--dark-grey-90);
   }
 }
 
