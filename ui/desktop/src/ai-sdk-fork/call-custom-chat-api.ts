@@ -90,3 +90,12 @@ export async function callCustomChatApi({
     }
   }
 }
+
+export function stop() {
+  const abortController = abortController?.();
+  if (abortController) {
+    abortController.abort();
+  }
+  // Terminate any background processes
+  window.electron.terminateBackgroundProcesses();
+}

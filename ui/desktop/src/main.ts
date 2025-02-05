@@ -594,6 +594,8 @@ app.whenReady().then(async () => {
       log.info('Stopped power save blocker');
       return true;
     }
+    // Terminate any background processes
+    window.electron.terminateBackgroundProcesses();
     return false;
   });
 

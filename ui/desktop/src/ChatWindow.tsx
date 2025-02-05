@@ -189,6 +189,9 @@ export function ChatContent({
       const updatedMessages = [...messages.slice(0, -1), newLastMessage];
       setMessages(updatedMessages);
     }
+
+    // Terminate any background processes
+    window.electron.terminateBackgroundProcesses();
   };
 
   return (
