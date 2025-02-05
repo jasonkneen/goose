@@ -172,6 +172,30 @@ fn create_request_based_on_model(
         payload = update_request_for_anthropic(&payload);
     }
 
+    // Ensure tool call arguments are properly formatted
+    if let Some(messages_spec) = payload
+        .as_object_mut()
+        .and_then(|obj| obj.get_mut("messages"))
+        .and_then(|messages| messages.as_array_mut())
+    {
+        for message in messages_spec.iter_mut() {
+            if let Some(tool_calls) = message.get_mut("tool_calls") {
+                if let Some(tool_calls_array) = tool_calls.as_array_mut() {
+                    for tool_call in tool_calls_array {
+                        if let Some(arguments) = tool_call
+                            .get_mut("function")
+                            .and_then(|function| function.get_mut("arguments"))
+                        {
+                            if arguments.as_str().unwrap_or("").is_empty() {
+                                *arguments = json!("{}");
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
     Ok(payload)
 }
 
