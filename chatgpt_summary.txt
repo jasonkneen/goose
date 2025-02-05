@@ -1,0 +1,16 @@
+ChatGPT Key Information
+======================
+
+Developer: OpenAI
+Release Date: November 30, 2022
+Platform: Cloud computing platforms
+Description: A generative artificial intelligence chatbot
+
+Key Highlights:
+- Based on the GPT-4 large language model
+- Generates human-like conversational responses
+- Fastest-growing consumer software application (100M users in 2 months)
+- Current OpenAI valuation: 6 billion
+- Sparked development of competing products (Gemini, Claude, Llama, etc.)
+
+Website: https://chatgpt.com/

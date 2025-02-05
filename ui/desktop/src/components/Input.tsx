@@ -74,7 +74,7 @@ export default function Input({
   return (
     <form
       onSubmit={onFormSubmit}
-      className="flex relative h-auto px-[16px] pr-[68px] py-[1rem] border-t border-borderSubtle"
+      className="flex relative h-auto px-[16px] pr-[68px] py-[1rem] border-t border-white/[0.15] bg-white/[0.03]"
     >
       {/* loading */}
       {/* {isLoading && (

@@ -195,7 +195,7 @@ export default function GooseResponseForm({
       {isForm(dynamicForm) && !isOptions && (
         <form
           onSubmit={handleFormSubmit}
-          className="space-y-4 p-4 rounded-lg bg-tool-card dark:bg-tool-card-dark border dark:border-dark-border"
+          className="space-y-4 p-4 rounded-lg bg-bgApp dark:bg-dark-grey-40 border dark:border-dark-border"
         >
           <h2 className="text-xl font-medium mb-2 dark:text-gray-100">{dynamicForm.title}</h2>
           <p className="text-sm text-gray-600 dark:text-gray-300 mb-4">{dynamicForm.description}</p>
@@ -217,7 +217,7 @@ export default function GooseResponseForm({
                   required={field.required}
                   value={formValues[field.name] || ''}
                   onChange={(e) => handleFormChange(field.name, e.target.value)}
-                  className="w-full p-2 border rounded-md dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100"
+                  className="w-full p-2 border rounded-md dark:bg-dark-grey-90 dark:border-dark-grey-40 dark:text-gray-100"
                   rows={4}
                 />
               ) : (
@@ -229,7 +229,7 @@ export default function GooseResponseForm({
                   required={field.required}
                   value={formValues[field.name] || ''}
                   onChange={(e) => handleFormChange(field.name, e.target.value)}
-                  className="w-full p-2 border rounded-md dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100"
+                  className="w-full p-2 border rounded-md dark:bg-dark-grey-90 dark:border-dark-grey-40 dark:text-gray-100"
                 />
               )}
             </div>
