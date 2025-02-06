@@ -8,13 +8,13 @@ use tracing_subscriber::{
 };
 
 use goose::tracing::langfuse_layer;
+use etcetera::base_strategy::{get_config_dir, ConfigLocation};
 
 /// Returns the directory where log files should be stored.
 /// Creates the directory structure if it doesn't exist.
 fn get_log_directory() -> Result<PathBuf> {
-    let home = std::env::var("HOME").context("HOME environment variable not set")?;
-    let base_log_dir = PathBuf::from(home)
-        .join(".config")
+    let config_dir = get_config_dir().context("Failed to determine configuration directory")?;
+    let base_log_dir = config_dir
         .join("goose")
         .join("logs")
         .join("server"); // Add server-specific subdirectory

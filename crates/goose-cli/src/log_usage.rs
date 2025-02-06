@@ -1,4 +1,5 @@
 use goose::providers::base::ProviderUsage;
+use etcetera::base_strategy::{get_config_dir, ConfigLocation};
 
 #[derive(Debug, serde::Serialize, serde::Deserialize)]
 struct SessionLog {
@@ -13,8 +14,8 @@ pub fn log_usage(session_file: String, usage: Vec<ProviderUsage>) {
     };
 
     // Ensure log directory exists
-    if let Some(home_dir) = dirs::home_dir() {
-        let log_dir = home_dir.join(".config").join("goose").join("logs");
+    if let Ok(config_dir) = get_config_dir() {
+        let log_dir = config_dir.join("goose").join("logs");
         if let Err(e) = std::fs::create_dir_all(&log_dir) {
             eprintln!("Failed to create log directory: {}", e);
             return;
@@ -43,7 +44,7 @@ pub fn log_usage(session_file: String, usage: Vec<ProviderUsage>) {
             eprintln!("Failed to write to usage log file: {}", e);
         }
     } else {
-        eprintln!("Failed to write to usage log file: Failed to determine home directory");
+        eprintln!("Failed to write to usage log file: Failed to determine configuration directory");
     }
 }
 
@@ -59,9 +60,8 @@ mod tests {
     #[test]
     fn test_session_logging() {
         run_with_tmp_dir(|| {
-            let home_dir = dirs::home_dir().unwrap();
-            let log_file = home_dir
-                .join(".config")
+            let config_dir = etcetera::base_strategy::get_config_dir().unwrap();
+            let log_file = config_dir
                 .join("goose")
                 .join("logs")
                 .join("goose.log");
