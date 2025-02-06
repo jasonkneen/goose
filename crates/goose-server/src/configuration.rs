@@ -9,6 +9,8 @@ pub struct Settings {
     pub host: String,
     #[serde(default = "default_port")]
     pub port: u16,
+    pub openai_organization: Option<String>, // Pbbfe
+    pub openai_project: Option<String>, // Pbbfe
 }
 
 impl Settings {
@@ -83,6 +85,8 @@ mod tests {
         let server_settings = Settings {
             host: "127.0.0.1".to_string(),
             port: 3000,
+            openai_organization: None,
+            openai_project: None,
         };
         let addr = server_settings.socket_addr();
         assert_eq!(addr.to_string(), "127.0.0.1:3000");

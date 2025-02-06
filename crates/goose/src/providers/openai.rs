@@ -30,6 +30,8 @@ pub struct OpenAiProvider {
     host: String,
     api_key: String,
     model: ModelConfig,
+    openai_organization: Option<String>,
+    openai_project: Option<String>,
 }
 
 impl Default for OpenAiProvider {
@@ -46,6 +48,8 @@ impl OpenAiProvider {
         let host: String = config
             .get("OPENAI_HOST")
             .unwrap_or_else(|_| "https://api.openai.com".to_string());
+        let openai_organization: Option<String> = config.get("OPENAI_ORGANIZATION").ok();
+        let openai_project: Option<String> = config.get("OPENAI_PROJECT").ok();
         let client = Client::builder()
             .timeout(Duration::from_secs(600))
             .build()?;
@@ -55,6 +59,8 @@ impl OpenAiProvider {
             host,
             api_key,
             model,
+            openai_organization,
+            openai_project,
         })
     }
 
@@ -65,10 +71,18 @@ impl OpenAiProvider {
             ProviderError::RequestFailed(format!("Failed to construct endpoint URL: {e}"))
         })?;
 
-        let response = self
-            .client
-            .post(url)
-            .header("Authorization", format!("Bearer {}", self.api_key))
+        let mut request = self.client.post(url)
+            .header("Authorization", format!("Bearer {}", self.api_key));
+
+        if let Some(ref org) = self.openai_organization {
+            request = request.header("OpenAI-Organization", org);
+        }
+
+        if let Some(ref project) = self.openai_project {
+            request = request.header("OpenAI-Project", project);
+        }
+
+        let response = request
             .json(&payload)
             .send()
             .await?;
@@ -93,6 +107,8 @@ impl Provider for OpenAiProvider {
             vec![
                 ConfigKey::new("OPENAI_API_KEY", true, true, None),
                 ConfigKey::new("OPENAI_HOST", false, false, Some("https://api.openai.com")),
+                ConfigKey::new("OPENAI_ORGANIZATION", false, false, None),
+                ConfigKey::new("OPENAI_PROJECT", false, false, None),
             ],
         )
     }
