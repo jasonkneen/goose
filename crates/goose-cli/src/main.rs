@@ -146,6 +146,20 @@ enum Command {
 
     /// List available agent versions
     Agents(AgentCommand),
+
+    /// Open an HTML file in the default web browser
+    #[command(about = "Open an HTML file in the default web browser")]
+    OpenBrowser {
+        /// Path to the HTML file
+        #[arg(
+            short,
+            long,
+            value_name = "FILE",
+            help = "Path to the HTML file to open",
+            long_help = "Specify the path to the HTML file that you want to open in the default web browser."
+        )]
+        file_path: String,
+    },
 }
 
 #[derive(clap::ValueEnum, Clone, Debug)]
@@ -216,6 +230,14 @@ async fn main() -> Result<()> {
         }
         Some(Command::Agents(cmd)) => {
             cmd.run()?;
+            return Ok(());
+        }
+        Some(Command::OpenBrowser { file_path }) => {
+            if let Err(e) = webbrowser::open(&file_path) {
+                eprintln!("Failed to open browser: {}", e);
+                std::process::exit(1);
+            }
+            println!("Opened file in browser: {}", file_path);
             return Ok(());
         }
         None => {

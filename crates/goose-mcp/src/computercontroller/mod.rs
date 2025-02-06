@@ -184,6 +184,24 @@ impl ComputerControllerRouter {
             }),
         );
 
+        let open_browser_tool = Tool::new(
+            "open_browser",
+            indoc! {r#"
+                Open an HTML file in the default web browser.
+                This tool is useful for previewing HTML content.
+            "#},
+            json!({
+                "type": "object",
+                "required": ["file_path"],
+                "properties": {
+                    "file_path": {
+                        "type": "string",
+                        "description": "The path to the HTML file to open"
+                    }
+                }
+            }),
+        );
+
         // Create cache directory in user's home directory
         let cache_dir = dirs::cache_dir()
             .unwrap_or_else(|| PathBuf::from("/tmp"))
@@ -273,6 +291,7 @@ impl ComputerControllerRouter {
                 quick_script_tool,
                 computer_control_tool,
                 cache_tool,
+                open_browser_tool,
             ],
             cache_dir,
             active_resources: Arc::new(Mutex::new(HashMap::new())),
@@ -502,7 +521,7 @@ impl ComputerControllerRouter {
         };
 
         // Save output if requested
-        if save_output && !output_str.is_empty() {
+        if save_output && !output_str.isEmpty() {
             let cache_path = self
                 .save_to_cache(output_str.as_bytes(), "script_output", "txt")
                 .await?;
@@ -568,7 +587,7 @@ impl ComputerControllerRouter {
         };
 
         // Save output if requested
-        if save_output && !output_str.is_empty() {
+        if save_output && !output_str.isEmpty() {
             let cache_path = self
                 .save_to_cache(output_str.as_bytes(), "applescript_output", "txt")
                 .await?;
@@ -654,6 +673,35 @@ impl ComputerControllerRouter {
             _ => unreachable!(), // Prevented by enum in tool definition
         }
     }
+
+    // Implement open_browser tool functionality
+    async fn open_browser(&self, params: Value) -> Result<Vec<Content>, ToolError> {
+        let file_path = params
+            .get("file_path")
+            .and_then(|v| v.as_str())
+            .ok_or_else(|| ToolError::InvalidParameters("Missing 'file_path' parameter".into()))?;
+
+        // Check if the file exists
+        if !std::path::Path::new(file_path).exists() {
+            return Err(ToolError::ExecutionError(format!(
+                "File not found: {}",
+                file_path
+            )));
+        }
+
+        // Open the file in the default web browser
+        if let Err(e) = webbrowser::open(file_path) {
+            return Err(ToolError::ExecutionError(format!(
+                "Failed to open browser: {}",
+                e
+            )));
+        }
+
+        Ok(vec![Content::text(format!(
+            "Opened file in browser: {}",
+            file_path
+        ))])
+    }
 }
 
 impl Router for ComputerControllerRouter {
@@ -690,6 +738,7 @@ impl Router for ComputerControllerRouter {
                 "automation_script" => this.quick_script(arguments).await,
                 "computer_control" => this.computer_control(arguments).await,
                 "cache" => this.cache(arguments).await,
+                "open_browser" => this.open_browser(arguments).await,
                 _ => Err(ToolError::NotFound(format!("Tool {} not found", tool_name))),
             }
         })
