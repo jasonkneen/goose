@@ -20,3 +20,20 @@ codename goose
 
 Check out our [documentation](https://block.github.io/goose), or to try it out head to the [installation](https://block.github.io/goose/docs/getting-started/installation) instructions!
 
+## Docker Image
+
+You can now pull and run the official Goose Docker image from Docker Hub.
+
+### Pull the Docker Image
+
+```sh
+docker pull block/goose:latest
+```
+
+### Run the Docker Container
+
+```sh
+docker run --rm -it block/goose:latest
+```
+
+For more advanced usage, you can mount volumes, set environment variables, and more. Refer to the Docker documentation for additional options.
