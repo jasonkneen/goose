@@ -1,0 +1,8 @@
+# Ignore environment files
+.env
+
+# Ignore sensitive configuration files
+config/secrets.yaml
+
+# Ignore all files in the private directory
+private/

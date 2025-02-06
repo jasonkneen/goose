@@ -8,6 +8,9 @@ use mcp_core::Tool;
 use serde_json::{json, Value};
 use std::collections::HashMap;
 use std::error::Error;
+use std::fs::File;
+use std::io::{self, BufRead};
+use std::path::Path;
 
 pub async fn handle_configure() -> Result<(), Box<dyn Error>> {
     let config = Config::global();
@@ -547,4 +550,21 @@ pub fn configure_extensions_dialog() -> Result<(), Box<dyn Error>> {
     };
 
     Ok(())
+}
+
+/// Read the .gooseignore file and return a list of ignored paths
+fn read_gooseignore() -> Result<Vec<String>, Box<dyn Error>> {
+    let path = Path::new(".gooseignore");
+    let file = File::open(path)?;
+    let reader = io::BufReader::new(file);
+
+    let mut ignored_paths = Vec::new();
+    for line in reader.lines() {
+        let line = line?;
+        if !line.trim().is_empty() && !line.starts_with('#') {
+            ignored_paths.push(line);
+        }
+    }
+
+    Ok(ignored_paths)
 }

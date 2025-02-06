@@ -22,3 +22,27 @@ Manually review or use automated code reviews to ensure the quality of generated
 ### Codebase Organization
 
 Structure your codebase into well-defined modules or subdirectories to manage them efficiently. Use a modular approach to isolate parts of the code Goose needs to access. You can also provide specific directories or file paths you want Goose to work on.
+
+### Restricting Access with .gooseignore
+
+To restrict Goose and its extensions from accessing specific files or paths, you can use a `.gooseignore` file. This file works similarly to a `.gitignore` file and allows you to specify files and directories that should be ignored.
+
+#### Creating a .gooseignore File
+
+1. Create a file named `.gooseignore` in the root directory of your project.
+2. Add the paths of the files or directories you want to ignore, one per line.
+
+#### Example .gooseignore File
+
+```
+# Ignore environment files
+.env
+
+# Ignore sensitive configuration files
+config/secrets.yaml
+
+# Ignore all files in the private directory
+private/
+```
+
+By using a `.gooseignore` file, you can ensure that Goose and its extensions do not access or modify sensitive files or directories in your project.

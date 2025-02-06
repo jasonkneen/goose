@@ -3,6 +3,9 @@ use crate::agents::ExtensionConfig;
 use anyhow::Result;
 use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
+use std::fs::File;
+use std::io::{self, BufRead};
+use std::path::Path;
 
 const DEFAULT_EXTENSION: &str = "developer";
 
@@ -41,8 +44,11 @@ impl ExtensionManager {
             Err(e) => return Err(e.into()),
         };
 
+        // Read the .gooseignore file and get the list of ignored paths
+        let ignored_paths = read_gooseignore().unwrap_or_default();
+
         Ok(extensions.get(name).and_then(|entry| {
-            if entry.enabled {
+            if entry.enabled && !ignored_paths.contains(&name.to_string()) {
                 Some(entry.config.clone())
             } else {
                 None
@@ -113,6 +119,24 @@ impl ExtensionManager {
         Ok(extensions.get(name).map(|e| e.enabled).unwrap_or(false))
     }
 }
+
+/// Read the .gooseignore file and return a list of ignored paths
+fn read_gooseignore() -> Result<Vec<String>, Box<dyn std::error::Error>> {
+    let path = Path::new(".gooseignore");
+    let file = File::open(path)?;
+    let reader = io::BufReader::new(file);
+
+    let mut ignored_paths = Vec::new();
+    for line in reader.lines() {
+        let line = line?;
+        if !line.trim().is_empty() && !line.starts_with('#') {
+            ignored_paths.push(line);
+        }
+    }
+
+    Ok(ignored_paths)
+}
+
 fn get_keys(entries: HashMap<String, ExtensionEntry>) -> Vec<String> {
     entries.into_keys().collect()
 }
