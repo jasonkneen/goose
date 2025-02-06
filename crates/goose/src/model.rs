@@ -34,12 +34,18 @@ impl ModelConfig {
         let context_limit = Self::get_model_specific_limit(&model_name);
         let tokenizer_name = Self::infer_tokenizer_name(&model_name);
 
+        let max_tokens = if model_name.starts_with("o3") {
+            Some(4096) // Default max_tokens for o3 models
+        } else {
+            None
+        };
+
         Self {
             model_name,
             tokenizer_name: tokenizer_name.to_string(),
             context_limit,
             temperature: None,
-            max_tokens: None,
+            max_tokens,
         }
     }
 
