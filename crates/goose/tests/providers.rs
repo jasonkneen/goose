@@ -253,11 +253,71 @@ impl ProviderTester {
         Ok(())
     }
 
+    async fn test_user_prompt_on_context_length_exceeded(&self) -> Result<()> { // P91ef
+        // Simulate a scenario where context length is exceeded and user is prompted
+        let large_message_content = "hello ".repeat(300_000);
+
+        let messages = vec![
+            Message::user().with_text("hi there. what is 2 + 2?"),
+            Message::assistant().with_text("hey! I think it's 4."),
+            Message::user().with_text(&large_message_content),
+            Message::assistant().with_text("heyy!!"),
+            Message::user().with_text("what's the meaning of life?"),
+            Message::assistant().with_text("the meaning of life is 42"),
+            Message::user().with_text(
+                "did I ask you what's 2+2 in this message history? just respond with 'yes' or 'no'",
+            ),
+        ];
+
+        // Test that we get ProviderError::ContextLengthExceeded when the context window is exceeded
+        let result = self
+            .provider
+            .complete("You are a helpful assistant.", &messages, &[])
+            .await;
+
+        // Print some debug info
+        println!("=== {}::user_prompt_on_context_length_exceeded ===", self.name);
+        dbg!(&result);
+        println!("===================");
+
+        // Verify that the user is prompted for further action
+        assert!(
+            result.is_err(),
+            "Expected error when context window is exceeded"
+        );
+        assert!(
+            matches!(result.unwrap_err(), ProviderError::ContextLengthExceeded(_)),
+            "Expected error to be ContextLengthExceeded"
+        );
+
+        // Simulate user choosing to attempt further truncation
+        let user_input = Message::user().with_text("Attempt further truncation");
+
+        let result = self
+            .provider
+            .complete("You are a helpful assistant.", &[user_input], &[])
+            .await;
+
+        // Print some debug info
+        println!("=== {}::user_prompt_on_context_length_exceeded_further_truncation ===", self.name);
+        dbg!(&result);
+        println!("===================");
+
+        // Verify that the system continues truncation with a further reduced context limit
+        assert!(
+            result.is_ok(),
+            "Expected success after user chooses to attempt further truncation"
+        );
+
+        Ok(())
+    }
+
     /// Run all provider tests
     async fn run_test_suite(&self) -> Result<()> {
         self.test_basic_response().await?;
         self.test_tool_usage().await?;
         self.test_context_length_exceeded_error().await?;
+        self.test_user_prompt_on_context_length_exceeded().await?; // P91ef
         Ok(())
     }
 }

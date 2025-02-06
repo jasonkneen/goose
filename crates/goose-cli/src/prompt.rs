@@ -19,6 +19,7 @@ pub trait Prompt {
         println!("Goose is running! Enter your instructions, or try asking what goose can do.");
         println!("\n");
     }
+    fn ask_user_for_truncation(&self) -> Result<Input>; // Pd8b8
 }
 
 pub struct Input {
@@ -30,10 +31,5 @@ pub enum InputType {
     AskAgain, // Ask the user for input again. Control flow command.
     Message,  // User sent a message
     Exit,     // User wants to exit the session
-}
-
-pub enum Theme {
-    Light,
-    Dark,
-    Ansi, // Use terminal's ANSI/base16 colors directly.
+    TruncateFurther, // P3abf
 }
