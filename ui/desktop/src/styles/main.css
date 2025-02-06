@@ -13,7 +13,7 @@
 /* Message Content Styling */
 /* Message Content Styling */
 .message-content {
-  background-color: #c2c2c2;
+  background-color: #e6e6e6;
 }
 
 .dark .message-content,
@@ -128,9 +128,9 @@
     --constant-white: #ffffff;
     --constant-black: #1a1f28;
     --grey-10: #101010;
-    --grey-20: #0e1e1e;
-    --grey-50: #666666;
-    --grey-60: #959595;
+    --grey-20: #1a1a1a;
+    --grey-50: #4d4d4d;
+    --grey-60: #666666;
     --grey-80: #cccccc;
     --grey-85: #dadada;
     --grey-90: #e8e8e8;
@@ -145,14 +145,14 @@
     --dark-grey-90: #f0f6fc;
     --background-app: var(--constant-white);
     --background-prominent: var(--grey-80);
-    --background-standard: var(--grey-90);
+    --background-standard: #ffffff;
     --background-subtle: var(--grey-95);
 
     --border-divider: var(--grey-90);
     --border-inverse: var(--constant-white);
     --border-prominent: var(--grey-10);
-    --border-standard: var(--grey-60);
-    --border-subtle: var(--grey-90);
+    --border-standard: #595959;
+    --border-subtle: #d1d1d1;
 
     --icon-disabled: var(--grey-60);
     --icon-extra-subtle: var(--grey-60);
@@ -162,9 +162,9 @@
     --icon-subtle: var(--grey-50);
 
     --text-placeholder: var(--grey-60);
-    --text-prominent: var(--grey-10);
-    --text-standard: var(--grey-20);
-    --text-subtle: var(--grey-50);
+    --text-prominent: #000000;
+    --text-standard: #1a1a1a;
+    --text-subtle: #4d4d4d;
 
     &.dark {
       --background-app: var(--constant-black);
@@ -242,7 +242,8 @@
 
   /* Card Styling */
   .card {
-    @apply rounded-xl p-4 bg-white shadow-sm;
+    @apply rounded-xl p-4 bg-white;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
   }
 
   .dark .card {
