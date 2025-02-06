@@ -509,6 +509,14 @@ impl Capabilities {
 
         result
     }
+
+    /// Reset the agent's state to prevent endless loops
+    pub async fn reset_state(&mut self) {
+        self.clients.clear();
+        self.instructions.clear();
+        self.resource_capable_extensions.clear();
+        self.provider_usage.lock().await.clear();
+    }
 }
 
 #[cfg(test)]

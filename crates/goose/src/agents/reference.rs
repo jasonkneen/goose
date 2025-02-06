@@ -128,7 +128,13 @@ impl Agent for ReferenceAgent {
 
         Ok(Box::pin(async_stream::try_stream! {
             let _reply_guard = reply_span.enter();
+            let mut iteration_count = 0; // P27de
             loop {
+                iteration_count += 1; // P27de
+                if iteration_count > 100 { // P27de
+                    capabilities.reset_state().await; // P27de
+                    break; // P27de
+                } // P27de
                 // Get completion from provider
                 let (response, usage) = capabilities.provider().complete(
                     &system_prompt,

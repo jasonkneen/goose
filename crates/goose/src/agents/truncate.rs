@@ -131,6 +131,7 @@ impl Agent for TruncateAgent {
         let mut capabilities = self.capabilities.lock().await;
         let mut tools = capabilities.get_prefixed_tools().await?;
         let mut truncation_attempt: usize = 0;
+        let mut iteration_count = 0; // P02f7
 
         // we add in the read_resource tool by default
         // TODO: make sure there is no collision with another extension's tool name
@@ -191,6 +192,11 @@ impl Agent for TruncateAgent {
         Ok(Box::pin(async_stream::try_stream! {
             let _reply_guard = reply_span.enter();
             loop {
+                iteration_count += 1; // P02f7
+                if iteration_count > 100 { // P02f7
+                    capabilities.reset_state().await; // P02f7
+                    break; // P02f7
+                } // P02f7
                 // Attempt to get completion from provider
                 match capabilities.provider().complete(
                     &system_prompt,

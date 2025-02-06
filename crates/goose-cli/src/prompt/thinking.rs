@@ -217,8 +217,19 @@ pub const THINKING_MESSAGES: &[&str] = &[
     "Scanning neural pathways",
 ];
 
+/// Counter to track the number of thinking messages displayed
+static mut THINKING_MESSAGE_COUNTER: usize = 0;
+/// Maximum number of thinking messages to display
+const MAX_THINKING_MESSAGES: usize = 100;
+
 /// Returns a random thinking message from the extended list
 pub fn get_random_thinking_message() -> &'static str {
+    unsafe {
+        THINKING_MESSAGE_COUNTER += 1;
+        if THINKING_MESSAGE_COUNTER > MAX_THINKING_MESSAGES {
+            return "Thinking limit reached";
+        }
+    }
     THINKING_MESSAGES
         .choose(&mut rand::thread_rng())
         .unwrap_or(&THINKING_MESSAGES[0])

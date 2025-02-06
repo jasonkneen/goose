@@ -28,4 +28,13 @@ pub trait Agent: Send + Sync {
 
     /// Get the total usage of the agent
     async fn usage(&self) -> Vec<ProviderUsage>;
+
+    /// Detect and handle endless loops by breaking out of the loop after a certain number of iterations
+    async fn detect_and_handle_endless_loop(&self, iterations: usize) -> bool {
+        const MAX_ITERATIONS: usize = 100;
+        if iterations > MAX_ITERATIONS {
+            return true;
+        }
+        false
+    }
 }
