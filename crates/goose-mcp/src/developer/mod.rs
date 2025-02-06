@@ -227,11 +227,13 @@ impl DeveloperRouter {
                     "The command string is required".to_string(),
                 ))?;
 
-        // TODO consider command suggestions and safety rails
-
-        // TODO be more careful about backgrounding, revisit interleave
-        // Redirect stderr to stdout to interleave outputs
-        let cmd_with_redirect = format!("{} 2>&1", command);
+        // Detect if the command is to be run within a conda environment
+        let conda_env = std::env::var("CONDA_DEFAULT_ENV").ok();
+        let cmd_with_redirect = if let Some(env) = conda_env {
+            format!("conda run -n {} {} 2>&1", env, command)
+        } else {
+            format!("{} 2>&1", command)
+        };
 
         // Execute the command
         let child = Command::new("bash")
