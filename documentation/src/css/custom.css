@@ -113,6 +113,19 @@
   --ifm-footer-link-color: var(--text-standard);
   --ifm-navbar-link-hover-color: var(--text-subtle);
   --ifm-link-color: var(--green-for-lightbg);
+/* Light mode colors */
+--background-app-light: #ffffff;
+--background-prominent-light: #f0f0f0;
+--background-standard-light: #e0e0e0;
+--background-subtle-light: #d0d0d0;
+--border-divider-light: #cccccc;
+--border-inverse-light: #000000;
+--border-prominent-light: #333333;
+--border-standard-light: #bbbbbb;
+--border-subtle-light: #aaaaaa;
+--text-standard-light: #000000;
+--text-subtle-light: #555555;
+--text-inverse-light: #ffffff;
 }
 
 /* For readability concerns, you should choose a lighter palette in dark mode. */
@@ -153,6 +166,22 @@
 
   --button-primary-background: var(--constant-white);
   --ifm-link-color: var(--green-for-darkbg);
+}
+
+/* Apply light mode colors */
+[data-theme="light"] {
+  --background-app: var(--background-app-light);
+  --background-prominent: var(--background-prominent-light);
+  --background-standard: var(--background-standard-light);
+  --background-subtle: var(--background-subtle-light);
+  --border-divider: var(--border-divider-light);
+  --border-inverse: var(--border-inverse-light);
+  --border-prominent: var(--border-prominent-light);
+  --border-standard: var(--border-standard-light);
+  --border-subtle: var(--border-subtle-light);
+  --text-standard: var(--text-standard-light);
+  --text-subtle: var(--text-subtle-light);
+  --text-inverse: var(--text-inverse-light);
 }
 
 /* overrides */

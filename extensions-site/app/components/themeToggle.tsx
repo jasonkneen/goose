@@ -61,9 +61,9 @@ export const ThemeToggle = ({ className = "" }) => {
       className={`h-12 w-12 overflow-hidden relative rounded-full border border-borderSubtle ${className}`}
     >
       <button
-        // onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
         onClick={() => handleThemeChange("light")}
         className="absolute left-[-1px] bg-bg flex h-12 w-12 flex-row items-center justify-center transition-all rotate-180 dark:rotate-0 translate-x-[100%] dark:translate-x-[0%]"
+        aria-label="Switch to light mode"
       >
         <svg
           width="24"
@@ -82,9 +82,9 @@ export const ThemeToggle = ({ className = "" }) => {
       </button>
 
       <button
-        // onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
         onClick={() => handleThemeChange("dark")}
         className="absolute left-[-1px] bg-bg flex h-12 w-12 flex-row items-center justify-center transition-all dark:translate-x-[-100%] dark:-rotate-90"
+        aria-label="Switch to dark mode"
       >
         <svg
           width="24"

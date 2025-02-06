@@ -140,7 +140,7 @@ function ToolResult({ result }: ToolResultProps) {
                 {item.type === 'text' && item.text && (
                   <MarkdownContent
                     content={item.text}
-                    className="whitespace-pre-wrap p-2 max-w-full overflow-x-auto"
+                    className="whitespace-pre-wrap  p-2 max-w-full overflow-x-auto"
                   />
                 )}
                 {item.type === 'image' && item.data && item.mimeType && (
