@@ -97,6 +97,20 @@ import RateLimits from '@site/src/components/RateLimits';
     ```  
   </TabItem>
 
+  <TabItem value="docker" label="Docker">
+    Run the following command to pull the Goose Docker image from Docker Hub:
+
+    ```sh
+    docker pull block/goose:latest
+    ```
+
+    To run Goose in a Docker container, use the following command:
+
+    ```sh
+    docker run --rm -it block/goose:latest
+    ```
+  </TabItem>
+
 </Tabs>
 
   :::tip Updating Goose
@@ -223,6 +237,12 @@ Goose works with a set of [supported LLM providers][providers], and you’ll nee
         Starting a session in the Goose Desktop is straightforward. After choosing your provider, you’ll see the session interface ready for use.
 
         Type your questions, tasks, or instructions directly into the input field, and Goose will get to work immediately.
+    </TabItem>
+    <TabItem value="docker" label="Docker">
+        To run Goose in a Docker container, use the following command:
+        ```sh
+        docker run --rm -it block/goose:latest
+        ```
     </TabItem>
 </Tabs>
 
