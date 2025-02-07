@@ -23,7 +23,7 @@ export default function GooseMessage({ message, metadata, messages, append }: Go
   const urls = !message.toolInvocations ? extractUrls(message.content, previousUrls) : [];
 
   return (
-    <div className="goose-message flex w-[90%] justify-start opacity-0 animate-[appear_150ms_ease-in_forwards]">
+    <div className="goose-message flex w-[70%] justify-start opacity-0 animate-[appear_150ms_ease-in_forwards]">
       <div className="flex flex-col w-full">
         {message.content && (
           <div
