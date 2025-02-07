@@ -1,19 +1,9 @@
 import React from 'react';
 
-function SplashPill({ content, append, isSelected, longForm = '' }) {
-  const baseClasses =
-    'px-4 py-2 text-sm text-center cursor-pointer rounded-full transition-all duration-150';
-  const selectedClasses =
-    'bg-black dark:bg-white dark:hover:bg-gray-200 text-white dark:!text-black border-none hover:bg-slate';
-  const unselectedClasses =
-    'text-textStandard dark:text-textStandard border border-white border-opacity-25 hover:bg-white hover:bg-opacity-15';
-
-  const className = isSelected
-    ? `${baseClasses} ${selectedClasses}`
-    : `${baseClasses} ${unselectedClasses}`;
+function SplashPill({ content, append, className = '', longForm = '' }) {
   return (
     <div
-      className={className}
+      className={`px-4 py-2 text-sm text-center text-textSubtle dark:text-textStandard cursor-pointer border border-borderSubtle dark:hover:bg-gray-800  hover:bg-black/5 rounded-full transition-all duration-150 ${className}`}
       onClick={async () => {
         const message = {
           content: longForm || content,

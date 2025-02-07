@@ -113,19 +113,20 @@
   --ifm-footer-link-color: var(--text-standard);
   --ifm-navbar-link-hover-color: var(--text-subtle);
   --ifm-link-color: var(--green-for-lightbg);
-/* Light mode colors */
---background-app-light: #ffffff;
---background-prominent-light: #f0f0f0;
---background-standard-light: #e0e0e0;
---background-subtle-light: #d0d0d0;
---border-divider-light: #cccccc;
---border-inverse-light: #000000;
---border-prominent-light: #333333;
---border-standard-light: #bbbbbb;
---border-subtle-light: #aaaaaa;
---text-standard-light: #000000;
---text-subtle-light: #555555;
---text-inverse-light: #ffffff;
+  /* Light mode colors */
+  --background-app-light: #ffffff;
+  --background-prominent-light: #f0f0f0;
+  --background-standard-light: #e0e0e0;
+  --background-subtle-light: #d0d0d0;
+  --border-divider-light: #cccccc;
+  --border-inverse-light: #000000;
+  --border-prominent-light: #333333;
+  --border-standard-light: #bbbbbb;
+  --border-subtle-light: #aaaaaa;
+  --text-standard-light: #000000;
+  --text-subtle-light: #555555;
+  --text-inverse-light: #ffffff;
+  --shadow-light: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 /* For readability concerns, you should choose a lighter palette in dark mode. */
@@ -182,6 +183,7 @@
   --text-standard: var(--text-standard-light);
   --text-subtle: var(--text-subtle-light);
   --text-inverse: var(--text-inverse-light);
+  --shadow: var(--shadow-light);
 }
 
 /* overrides */
@@ -194,6 +196,7 @@
   font-size: var(--ifm-font-size-base);
   color: var(--text-standard);
   border: none;
+  box-shadow: var(--shadow);
 }
 
 .button--primary {
@@ -220,6 +223,7 @@ html {
   align-items: center;
   justify-content: center;
   padding: 2rem 0;
+  box-shadow: var(--shadow);
 }
 
 .hero__title {
@@ -227,6 +231,7 @@ html {
   text-align: center;
   line-height: 0.8;
   margin-bottom: 32px;
+  box-shadow: var(--shadow);
 }
 
 .hero__subtitle {
@@ -234,11 +239,13 @@ html {
   margin-bottom: 32px;
   font-size: 28px;
   line-height: 36px;
+  box-shadow: var(--shadow);
 }
 
 .footer {
   border-top: 2px solid var(--border-subtle);
   padding-top: 24px;
+  box-shadow: var(--shadow);
 }
 
 /* net new */

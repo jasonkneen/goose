@@ -11,7 +11,7 @@ export default function UserMessage({ message }) {
     <div className="user-message flex justify-end mt-[16px] w-full animate-[appear_150ms_ease-in_forwards] user-message-bg">
       <div className="flex-col max-w-[85%]">
         <div className="flex text-white rounded-xl rounded-br-none py-2 px-3 message-content">
-          <MarkdownContent content={message.content} className="text-black" />
+          <MarkdownContent content={message.content} className="text-white" />
         </div>
 
         {/* TODO(alexhancock): Re-enable link previews once styled well again */}

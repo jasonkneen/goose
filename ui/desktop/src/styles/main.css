@@ -4,28 +4,37 @@
 @tailwind utilities;
 
 /* Message Background & Content Styling */
-.user-message-bg {
-  background-color: #f9f9f9;
-  color: #333333;
-  -webkit-backdrop-filter: blur(10px);
-  backdrop-filter: blur(10px);
+.message-bg {
+  background-color: transparent;
+  color: #1a1a1a;
   animation: fadeIn 0.5s ease-out;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.12);
 }
 .message-content {
-  background-color: #ffffff;
-  color: #333333;
+  background-color: #f7f7f7;
+  color: #1a1a1a;
   -webkit-backdrop-filter: blur(10px);
   backdrop-filter: blur(10px);
-  border: 1px solid rgba(0, 0, 0, 0.15);
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e5e5e5;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.user-message-bg {
+  background-color: transparent;
+  color: #ffffff !important;
+  animation: fadeIn 0.5s ease-out;
+}
+
+.user-message-bg .message-content {
+  background-color: #1a1a1a;
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .goose-message-content {
-  background-color: #ffffff;
-  color: #333333;
-  border: 1px solid rgba(0, 0, 0, 0.15);
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  background-color: #f7f7f7;
+  color: #1a1a1a;
+  border: 1px solid #e5e5e5;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
   overflow-wrap: break-word;
   word-break: break-word;
   min-width: 0;
@@ -33,8 +42,8 @@
 
 .goose-message-tool {
   background-color: #f0f0f0;
-  color: #333333;
-  border: 1px solid rgba(0, 0, 0, 0.15);
+  color: #1a1a1a;
+  border: 1px solid #e5e5e5;
   -webkit-backdrop-filter: blur(10px);
   backdrop-filter: blur(10px);
   border-radius: 0 0 0.75rem 0.75rem;
@@ -45,42 +54,41 @@
   gap: 0.5rem;
   width: 100%;
   min-width: 0;
-  /* Prevent flex item overflow */
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
 .goose-message-tool .card {
-  background-color: #ffffff;
-  color: #333333;
-  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16);
+  background-color: #f7f7f7;
+  color: #1a1a1a;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
   margin: 0;
-  /* Remove margin since we're using gap */
   border-radius: 0 0 0.75rem 0.75rem;
   overflow-wrap: break-word;
   word-break: break-word;
-  /* Better handling of long words */
   max-width: 100%;
   min-width: 0;
-  /* Prevent flex item overflow */
   padding: 0.5rem;
+  border: 1px solid #e5e5e5;
 }
 
 .card {
-  background-color: #ffffff;
-  color: #333333;
-  border: 1px solid rgba(0, 0, 0, 0.15);
+  background-color: #f7f7f7;
+  color: #1a1a1a;
+  border: 1px solid #e5e5e5;
   border-radius: 0 0 0.75rem 0.75rem;
   overflow-wrap: break-word;
   @apply px-4 py-2;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.12);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
 .panel {
   background-color: #f0f0f0;
-  color: #333333;
+  color: #1a1a1a;
+  border: 1px solid #e5e5e5;
   border-radius: 0 0 0.75rem 0.75rem;
   overflow-wrap: break-word;
   @apply px-4 py-2;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.12);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
 /* Dark mode overrides */
@@ -211,24 +219,26 @@
     );
     --spring-duration: 1.333s;
     /* custom slate */
-    --slate: #262626;
+    --slate: #1a1a1a;
 
     /* block */
-    --block-teal: #13bbaf;
-    --block-orange: #ff4f00;
+    --block-teal: #098f85;
+    /* Darker for better contrast */
+    --block-orange: #cc3f00;
+    /* Darker for better contrast */
 
     /* start arcade colors */
     --constant-white: #ffffff;
     --constant-black: #000000;
     --constant-dark: #101113;
-    --grey-10: #101010;
-    --grey-20: #382525;
+    --grey-10: #1a1a1a;
+    --grey-20: #333333;
     --grey-50: #4d4d4d;
-    --grey-60: #666666;
+    --grey-60: #595959;
     --grey-80: #cccccc;
     --grey-85: #dadada;
-    --grey-90: #e8e8e8;
-    --grey-95: #f0f0f0;
+    --grey-90: #e6e6e6;
+    --grey-95: #f2f2f2;
     /* Dark Mode Colors */
     --dark-grey-15: #10151d;
     --dark-grey-25: #1a1f28;
@@ -237,28 +247,28 @@
     --dark-grey-45: #8b949e;
     --dark-grey-60: #c9d1d9;
     --dark-grey-90: #f0f6fc;
-    --background-app: var(--constant-white);
-    --background-prominent: var(--grey-80);
-    --background-standard: #ffffff;
-    --background-subtle: var(--grey-90);
+    --background-app: #ffffff;
+    --background-prominent: #f0f0f0;
+    --background-standard: #f7f7f7;
+    --background-subtle: #fafafa;
 
-    --border-divider: var(--grey-90);
-    --border-inverse: var(--constant-white);
-    --border-prominent: var(--grey-0);
-    --border-standard: #404040;
-    --border-subtle: #595959;
+    --border-divider: #e5e5e5;
+    --border-inverse: #ffffff;
+    --border-prominent: #1a1a1a;
+    --border-standard: #e5e5e5;
+    --border-subtle: #f0f0f0;
 
-    --icon-disabled: var(--grey-60);
-    --icon-extra-subtle: var(--grey-60);
-    --icon-inverse: var(--constant-white);
-    --icon-prominent: var(--grey-10);
-    --icon-standard: var(--grey-20);
-    --icon-subtle: var(--grey-50);
+    --icon-disabled: #a0a0a0;
+    --icon-extra-subtle: #a0a0a0;
+    --icon-inverse: #ffffff;
+    --icon-prominent: #1a1a1a;
+    --icon-standard: #1a1a1a;
+    --icon-subtle: #4d4d4d;
 
-    --text-placeholder: var(--grey-60);
+    --text-placeholder: var(--grey-50);
     --text-prominent: #000000;
-    --text-standard: #121212;
-    --text-subtle: #494949;
+    --text-standard: #1a1a1a;
+    --text-subtle: #404040;
 
     &.dark {
       --background-app: var(--constant-dark);
@@ -289,6 +299,12 @@
   }
 }
 @layer components {
+  .text-glow {
+    text-shadow:
+      0 0 0.5px rgba(255, 255, 255, 0.6),
+      0 0 1px rgba(255, 255, 255, 0.4);
+  }
+
   .titlebar-drag-region {
     -webkit-app-region: drag;
     height: 32px;
@@ -358,12 +374,12 @@
   /* Card Styling */
   .card {
     @apply px-4 py-2;
-    background-color: #ffffff;
-    color: #333333;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+    background-color: #f7f7f7;
+    color: #1a1a1a;
+    border: 1px solid #e5e5e5;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
     border-radius: 0 0 0.75rem 0.75rem;
     overflow-wrap: break-word;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.12);
   }
 
   .dark .card {
@@ -380,35 +396,105 @@
   .panel {
     @apply px-4 py-2;
     background-color: #f0f0f0;
-    color: #333333;
+    color: #1a1a1a;
+    border: 1px solid #e5e5e5;
     border-radius: 0 0 0.75rem 0.75rem;
     overflow-wrap: break-word;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.12);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
   }
 
   .split-panel-header {
-    background-color: #ffffff;
-    color: #000000;
+    background-color: #e5e5e5;
+    color: #1a1a1a;
     font-weight: bold;
+    border: 1px solid #e5e5e5;
+    border-bottom: none;
   }
 
   .input-box {
-    background-color: #ffffff;
-    color: #000000;
-    border: 1px solid #333333;
+    background-color: #f7f7f7;
+    color: #1a1a1a;
+    border-top: 1px solid #e5e5e5;
+    position: relative;
+  }
+
+  .input-box::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background-color: #f0f0f0;
+  }
+
+  .dark .input-box::before {
+    background-color: rgba(255, 255, 255, 0.05);
+  }
+
+  .folder-model-label {
+    color: rgba(0, 0, 0, 0.45);
+    font-weight: 500;
+  }
+
+  /* Input Form Styling */
+  .chat-divider {
+    width: 100%;
+    height: 1px;
+    background-color: #e5e5e5;
+    margin: 0;
+    padding: 0;
+  }
+
+  .dark .chat-divider {
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+
+  .help-question {
+    font-weight: 500;
+    color: #1a1a1a;
+    margin-bottom: 0.5rem;
+  }
+
+  .help-section {
+    border-top: 1px solid #e5e5e5;
+    margin-top: 1rem;
+    padding-top: 1rem;
+  }
+
+  .dark .help-section {
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .dark .help-question {
+    color: #ffffff;
   }
 
   .dark .split-panel-header {
     background-color: #1a1f28;
-    color: #ffffff;
+    color: #cccccc;
     font-weight: bold;
   }
 
   .dark .input-box {
     background-color: #1a1f28;
     color: #ffffff;
-    border: 1px solid #ffffff;
+    border-top: 2px solid rgba(255, 255, 255, 0.2);
   }
+  .dark .folder-model-label {
+    color: rgba(255, 255, 255, 0.7);
+    font-weight: 500;
+  }
+}
+
+/* Removed the ghost background and odd shadow in dark mode */
+.dark .titlebar-drag-region {
+  height: 32px;
+  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 50;
 }
 
 /* Fade In Keyframes */
