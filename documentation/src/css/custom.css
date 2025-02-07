@@ -127,6 +127,11 @@
   --text-subtle-light: #555555;
   --text-inverse-light: #ffffff;
   --shadow-light: 0 4px 6px rgba(0, 0, 0, 0.1);
+
+  /* video adnomition */
+  --ifm-color-video-alert-contrast-background: #edfbf8;
+  --ifm-color-video-alert-contrast-foreground: #01523e;
+  --ifm-color-video-alert-border: #25c2a0;
 }
 
 /* For readability concerns, you should choose a lighter palette in dark mode. */
@@ -167,6 +172,29 @@
 
   --button-primary-background: var(--constant-white);
   --ifm-link-color: var(--green-for-darkbg);
+
+  /* video adnomition */
+  --ifm-color-video-alert-contrast-background: #336e62;
+  --ifm-color-video-alert-contrast-foreground: rgb(216 251 216);
+  --ifm-color-video-alert-border: #99d5c5
+  ;
+}
+
+/* Apply light mode colors */
+[data-theme="light"] {
+  --background-app: var(--background-app-light);
+  --background-prominent: var(--background-prominent-light);
+  --background-standard: var(--background-standard-light);
+  --background-subtle: var(--background-subtle-light);
+  --border-divider: var(--border-divider-light);
+  --border-inverse: var(--border-inverse-light);
+  --border-prominent: var(--border-prominent-light);
+  --border-standard: var(--border-standard-light);
+  --border-subtle: var(--border-subtle-light);
+  --text-standard: var(--text-standard-light);
+  --text-subtle: var(--text-subtle-light);
+  --text-inverse: var(--text-inverse-light);
+  --shadow: var(--shadow-light);
 }
 
 /* Apply light mode colors */
@@ -277,4 +305,11 @@ html[data-theme="dark"] .hide-in-dark {
 
 html[data-theme="light"] .hide-in-light {
   opacity: 0;
+}
+
+.alert--video {
+  --ifm-alert-background-color: var(--ifm-color-video-alert-contrast-background);
+  --ifm-alert-background-color-highlight: rgba(84, 199, 236, 0.15);
+  --ifm-alert-foreground-color: var(--ifm-color-video-alert-contrast-foreground);
+  --ifm-alert-border-color: var(--ifm-color-video-alert-border);
 }
