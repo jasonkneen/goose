@@ -17,23 +17,8 @@ export default function ToolInvocations({ toolInvocations }) {
   );
 }
 
-function ToolInvocation({ toolInvocation }) {
-  return (
-    <div className="w-full">
-      <Card className="">
-        <ToolCall call={toolInvocation} />
-        {toolInvocation.state === 'result' ? (
-          <ToolResult result={toolInvocation} />
-        ) : (
-          <LoadingPlaceholder />
-        )}
-      </Card>
-    </div>
-  );
-}
-
-interface ToolCallProps {
-  call: {
+interface ToolInvocationProps {
+  toolInvocation: {
     state: 'call' | 'result';
     toolCallId: string;
     toolName: string;
@@ -41,19 +26,46 @@ interface ToolCallProps {
   };
 }
 
-function ToolCall({ call }: ToolCallProps) {
+function ToolInvocation({ toolInvocation }: ToolInvocationProps) {
+  const [isExpanded, setIsExpanded] = React.useState(true);
+
   return (
-    <div>
-      <div className="flex items-center mb-4">
-        <Box size={16} />
-        <span className="ml-[8px] text-textStandard">
-          {snakeToTitleCase(call.toolName.substring(call.toolName.lastIndexOf('__') + 2))}
-        </span>
-      </div>
+    <div className="w-full">
+      <Card className="overflow-hidden">
+        {/* Header with collapse button */}
+        <div className="flex items-center justify-between p-4">
+          <div className="flex items-center">
+            <Box size={16} />
+            <span className="ml-2 text-textStandard">
+              {snakeToTitleCase(
+                toolInvocation.toolName.substring(toolInvocation.toolName.lastIndexOf('__') + 2)
+              )}
+            </span>
+          </div>
+          <button
+            onClick={() => setIsExpanded(!isExpanded)}
+            className="text-textStandard hover:opacity-75"
+            title={isExpanded ? 'Collapse tool panel' : 'Expand tool panel'}
+          >
+            <ChevronUp
+              className={`h-5 w-5 transition-all origin-center ${!isExpanded ? 'rotate-180' : ''}`}
+            />
+          </button>
+        </div>
 
-      {call.args && <ToolCallArguments args={call.args} />}
-
-      <div className="self-stretch h-px my-[10px] -mx-4 bg-borderSubtle dark:bg-gray-700" />
+        {/* Collapsible content */}
+        {isExpanded && (
+          <div className="px-4 pb-4">
+            {toolInvocation.args && <ToolCallArguments args={toolInvocation.args} />}
+            <div className="self-stretch h-px my-[10px] -mx-4 bg-borderSubtle dark:bg-gray-700" />
+            {toolInvocation.state === 'result' ? (
+              <ToolResult result={toolInvocation} />
+            ) : (
+              <LoadingPlaceholder />
+            )}
+          </div>
+        )}
+      </Card>
     </div>
   );
 }
