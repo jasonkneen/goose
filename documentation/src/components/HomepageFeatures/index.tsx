@@ -183,7 +183,7 @@ export default function HomepageFeatures(): ReactNode {
 
           {/* YouTube Video Section */}
           <div style={{ width: "100%", textAlign: "center", padding: "2rem 0" }}>
-            <h2 style={{ fontSize: "3rem", marginBottom: "1rem", fontWeight: "bold" }}>
+            <h2 style={{ fontSize: "2rem", marginBottom: "1rem", fontWeight: "bold" }}>
               Meet Codename Goose
             </h2>
             <div style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>

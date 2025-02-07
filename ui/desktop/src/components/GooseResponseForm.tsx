@@ -175,7 +175,7 @@ export default function GooseResponseForm({
                   : 'bg-tool-card dark:bg-tool-card-dark hover:bg-accent dark:hover:bg-dark-accent'
               )}
             >
-              <h3 className="font-semibold text-lg mb-2 dark:text-gray-100">{opt.optionTitle}</h3>
+              <h3 className="font-semibold text-lg mb-1 dark:text-gray-100">{opt.optionTitle}</h3>
               <div className="prose prose-xs max-w-none dark:text-gray-100">
                 <MarkdownContent content={opt.optionDescription} />
               </div>
@@ -197,7 +197,7 @@ export default function GooseResponseForm({
           onSubmit={handleFormSubmit}
           className="space-y-4 p-4 rounded-lg bg-bgApp dark:bg-dark-grey-40 border dark:border-dark-border"
         >
-          <h2 className="text-xl font-medium mb-2 dark:text-gray-100">{dynamicForm.title}</h2>
+          <h2 className="text-xl font-medium mb-1 dark:text-gray-100">{dynamicForm.title}</h2>
           <p className="text-sm text-gray-600 dark:text-gray-300 mb-4">{dynamicForm.description}</p>
 
           {dynamicForm.fields.map((field) => (

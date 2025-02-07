@@ -138,7 +138,7 @@ export function ManualExtensionModal({ isOpen, onClose, onSubmit }: ManualExtens
           <form onSubmit={handleSubmit}>
             <div className="space-y-4">
               <div>
-                <label className="block text-sm font-medium text-textStandard mb-2">Type</label>
+                <label className="block text-sm font-medium text-textStandard mb-1">Type</label>
                 <Select
                   options={typeOptions}
                   value={typeOptions.find((option) => option.value === formData.type)}
@@ -151,7 +151,7 @@ export function ManualExtensionModal({ isOpen, onClose, onSubmit }: ManualExtens
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-textStandard mb-2">ID *</label>
+                <label className="block text-sm font-medium text-textStandard mb-1">ID *</label>
                 <Input
                   type="text"
                   value={formData.id || ''}
@@ -162,7 +162,7 @@ export function ManualExtensionModal({ isOpen, onClose, onSubmit }: ManualExtens
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-textStandard mb-2">Name *</label>
+                <label className="block text-sm font-medium text-textStandard mb-1">Name *</label>
                 <Input
                   type="text"
                   value={formData.name || ''}
@@ -173,7 +173,7 @@ export function ManualExtensionModal({ isOpen, onClose, onSubmit }: ManualExtens
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-textStandard mb-2">
+                <label className="block text-sm font-medium text-textStandard mb-1">
                   Description *
                 </label>
                 <Input
@@ -187,7 +187,7 @@ export function ManualExtensionModal({ isOpen, onClose, onSubmit }: ManualExtens
 
               {formData.type === 'stdio' && (
                 <div>
-                  <label className="block text-sm font-medium text-textStandard mb-2">
+                  <label className="block text-sm font-medium text-textStandard mb-1">
                     Command * (command and arguments separated by spaces)
                   </label>
                   <Input
@@ -203,7 +203,7 @@ export function ManualExtensionModal({ isOpen, onClose, onSubmit }: ManualExtens
 
               {formData.type === 'sse' && (
                 <div>
-                  <label className="block text-sm font-medium text-textStandard mb-2">URI *</label>
+                  <label className="block text-sm font-medium text-textStandard mb-1">URI *</label>
                   <Input
                     type="text"
                     value={formData.uri || ''}
@@ -215,10 +215,10 @@ export function ManualExtensionModal({ isOpen, onClose, onSubmit }: ManualExtens
               )}
 
               <div>
-                <label className="block text-sm font-medium text-textStandard mb-2">
+                <label className="block text-sm font-medium text-textStandard mb-1">
                   Environment Variables
                 </label>
-                <div className="flex gap-2 mb-2">
+                <div className="flex gap-2 mb-1">
                   <Input
                     type="text"
                     value={envKey}

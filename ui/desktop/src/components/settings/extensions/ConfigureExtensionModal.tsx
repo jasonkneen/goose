@@ -107,7 +107,7 @@ export function ConfigureExtensionModal({
                       <div key={envVarName}>
                         <label
                           htmlFor={envVarName}
-                          className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
+                          className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
                         >
                           {envVarName}
                         </label>

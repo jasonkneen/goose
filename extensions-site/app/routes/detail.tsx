@@ -68,7 +68,7 @@ export default function DetailPage() {
         </div>
         <div className="animate-pulse">
           <div className="h-8 w-48 bg-gray-200 dark:bg-gray-700 rounded mb-4"></div>
-          <div className="h-4 w-full bg-gray-200 dark:bg-gray-700 rounded mb-2"></div>
+          <div className="h-4 w-full bg-gray-200 dark:bg-gray-700 rounded mb-1"></div>
           <div className="h-4 w-2/3 bg-gray-200 dark:bg-gray-700 rounded"></div>
         </div>
       </div>
@@ -160,7 +160,7 @@ export default function DetailPage() {
                         {env.description}
                       </div>
                       {env.required && (
-                        <Badge variant="secondary" className="mt-2">
+                        <Badge variant="secondary" className="mt-1">
                           Required
                         </Badge>
                       )}

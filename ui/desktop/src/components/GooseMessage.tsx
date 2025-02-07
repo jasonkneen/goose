@@ -23,7 +23,7 @@ export default function GooseMessage({ message, metadata, messages, append }: Go
   const urls = !message.toolInvocations ? extractUrls(message.content, previousUrls) : [];
 
   return (
-    <div className="goose-message flex w-[70%] justify-start opacity-0 animate-[appear_150ms_ease-in_forwards]">
+    <div className="goose-message flex max-w-[600px] justify-start opacity-0 animate-[appear_150ms_ease-in_forwards]">
       <div className="flex flex-col w-full">
         {message.content && (
           <div
@@ -41,7 +41,7 @@ export default function GooseMessage({ message, metadata, messages, append }: Go
       </div>
 
       {/* TODO(alexhancock): Re-enable link previews once styled well again */}
-      {false && urls.length > 0 && (
+      {true && urls.length > 0 && (
         <div className="flex flex-wrap mt-[16px]">
           {urls.map((url, index) => (
             <LinkPreview key={index} url={url} />
@@ -51,8 +51,8 @@ export default function GooseMessage({ message, metadata, messages, append }: Go
 
       {/* enable or disable prompts here */}
       {/* NOTE from alexhancock on 1/14/2025 - disabling again temporarily due to non-determinism in when the forms show up */}
-      {false && metadata && (
-        <div className="flex mt-[16px]">
+      {true && metadata && (
+        <div className="flex mt-[12px]">
           <GooseResponseForm message={message.content} metadata={metadata} append={append} />
         </div>
       )}

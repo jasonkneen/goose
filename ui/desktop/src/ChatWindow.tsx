@@ -193,16 +193,16 @@ export function ChatContent({
 
   return (
     <div className="flex flex-col w-full h-screen items-center justify-center">
-      <div className="relative flex items-center h-[36px] w-full bg-bgSubtle border-b border-borderSubtle">
+      <div className="relative flex items-center h-[32px] w-full bg-bgSubtle border-b border-borderSubtle">
         <MoreMenu />
       </div>
-      <Card className="flex flex-col flex-1 rounded-none h-[calc(100vh-95px)] w-full bg-bgApp mt-0 border-none relative">
+      <Card className="flex flex-col flex-1 rounded-none h-[calc(100vh-90px)] w-full bg-bgApp mt-0 border-none relative">
         {messages.length === 0 ? (
           <Splash append={append} />
         ) : (
-          <ScrollArea ref={scrollRef} className="flex-1 px-4" autoScroll>
+          <ScrollArea ref={scrollRef} className="flex-1 px-3" autoScroll>
             {messages.map((message) => (
-              <div key={message.id} className="mt-[16px]">
+              <div key={message.id} className="mt-[12px]">
                 {message.role === 'user' ? (
                   <UserMessage message={message} />
                 ) : (
@@ -223,12 +223,12 @@ export function ChatContent({
             )} */}
             {error && (
               <div className="flex flex-col items-center justify-center p-4">
-                <div className="text-red-700 dark:text-red-300 bg-red-400/50 p-3 rounded-lg mb-2">
+                <div className="text-red-700 dark:text-red-300 bg-red-400/50 p-3 rounded-lg mb-1">
                   {error.message || 'Honk! Goose experienced an error while responding'}
                   {error.status && <span className="ml-2">(Status: {error.status})</span>}
                 </div>
                 <div
-                  className="px-3 py-2 mt-2 text-center whitespace-nowrap cursor-pointer text-textStandard border border-borderSubtle hover:bg-bgSubtle rounded-full inline-block transition-all duration-150"
+                  className="px-3 py-2 mt-1 text-center whitespace-nowrap cursor-pointer text-textStandard border border-borderSubtle hover:bg-bgSubtle rounded-full inline-block transition-all duration-150"
                   onClick={async () => {
                     const lastUserMessage = messages.reduceRight(
                       (found, m) => found || (m.role === 'user' ? m : null),

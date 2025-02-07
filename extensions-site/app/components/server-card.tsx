@@ -79,7 +79,7 @@ export function ServerCard({ server }: { server: MCPServer }) {
                   <AnimatePresence>
                     {isCommandVisible && (
                       <motion.div
-                        className="block bg-gray-100 dark:bg-gray-900 p-2 mt-2 rounded text-sm dark:text-gray-300 z-[-1]"
+                        className="block bg-gray-100 dark:bg-gray-900 p-2 mt-1 rounded text-sm dark:text-gray-300 z-[-1]"
                         initial={{ opacity: 0, translateY: -20 }}
                         animate={{ opacity: 1, translateY: 0 }}
                         exit={{

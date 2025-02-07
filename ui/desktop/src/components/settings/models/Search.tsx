@@ -88,7 +88,7 @@ export function SearchBar() {
         className="w-full pl-12 py-2 bg-background border border-muted-foreground/20 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
       />
       {showResults && search && (
-        <div className="absolute z-10 w-full mt-2 bg-white dark:bg-gray-800 border border-muted-foreground/20 rounded-md shadow-lg">
+        <div className="absolute z-10 w-full mt-1 bg-white dark:bg-gray-800 border border-muted-foreground/20 rounded-md shadow-lg">
           {filteredModels.length > 0 ? (
             filteredModels.map((model, index) => (
               <div

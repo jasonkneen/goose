@@ -16,7 +16,7 @@ export default function UserMessage({ message }) {
 
         {/* TODO(alexhancock): Re-enable link previews once styled well again */}
         {false && urls.length > 0 && (
-          <div className="flex flex-wrap mt-2">
+          <div className="flex flex-wrap mt-1">
             {urls.map((url, index) => (
               <LinkPreview key={index} url={url} />
             ))}

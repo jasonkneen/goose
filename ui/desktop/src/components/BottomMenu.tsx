@@ -123,7 +123,7 @@ export default function BottomMenu({ hasMessages }) {
               />
               <div
                 className="flex items-center justify-between text-textStandard p-2 cursor-pointer hover:bg-bgStandard
-                  border-t border-borderSubtle mt-2"
+                  border-t border-borderSubtle mt-1"
                 onClick={() => {
                   setIsModelMenuOpen(false);
                   navigate('/settings');

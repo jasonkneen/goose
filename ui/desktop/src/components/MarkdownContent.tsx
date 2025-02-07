@@ -41,7 +41,7 @@ const CodeBlock = ({ language, children }: { language: string; children: string 
   };
 
   return (
-    <div className="relative group w-full">
+    <div className="relative group">
       <button
         onClick={handleCopy}
         className="absolute right-2 bottom-2 p-1.5 rounded-lg bg-gray-700/50 text-gray-300
@@ -49,7 +49,7 @@ const CodeBlock = ({ language, children }: { language: string; children: string 
                  hover:bg-gray-600/50 hover:text-gray-100 z-10"
         title="Copy code"
       >
-        {copied ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
+        {copied ? <Check className="h-2 w-2" /> : <Copy className="h-2 w-2" />}
       </button>
       <div className="w-full overflow-x-auto">
         <SyntaxHighlighter

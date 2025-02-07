@@ -50,7 +50,7 @@ export function WelcomeScreen({ onSubmit }: WelcomeScreenProps) {
 
             {/* ProviderGrid */}
             <div className="w-full">
-              <h2 className="text-3xl font-medium text-textStandard tracking-tight mb-2">
+              <h2 className="text-3xl font-medium text-textStandard tracking-tight mb-1">
                 Choose a Provider
               </h2>
               <p className="text-xl text-textStandard mb-4">

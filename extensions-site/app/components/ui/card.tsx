@@ -22,7 +22,7 @@ export const CardHeader: React.FC<React.HTMLAttributes<HTMLDivElement>> = ({
   ...props
 }) => {
   return (
-    <div className={`text-[18px] leading-[24px] mb-2 ${className}`} {...props}>
+    <div className={`text-[18px] leading-[24px] mb-1 ${className}`} {...props}>
       {children}
     </div>
   );

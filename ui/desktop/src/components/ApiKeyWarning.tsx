@@ -17,7 +17,7 @@ function Collapsible({ title, children, defaultOpen = false }: CollapsibleProps)
   const [isOpen, setIsOpen] = React.useState(defaultOpen);
 
   return (
-    <div className="border rounded-lg mb-2">
+    <div className="border rounded-lg mb-1">
       <button
         className="w-full px-4 py-2 text-left flex justify-between items-center hover:bg-gray-50"
         onClick={() => setIsOpen(!isOpen)}

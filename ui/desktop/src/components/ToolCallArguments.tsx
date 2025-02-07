@@ -20,7 +20,7 @@ export function ToolCallArguments({ args }: ToolCallArgumentsProps) {
 
       if (!needsExpansion) {
         return (
-          <div className="mb-2">
+          <div className="mb-1">
             <div className="flex flex-row">
               <span className="text-sm font-medium text-textSubtle min-w-[140px]">{key}</span>
               <span className="text-sm text-textStandard">{value}</span>
@@ -30,12 +30,12 @@ export function ToolCallArguments({ args }: ToolCallArgumentsProps) {
       }
 
       return (
-        <div className="mb-2">
+        <div className="mb-1">
           <div className="flex flex-row">
             <span className="text-sm font-medium text-textSubtle min-w-[140px]">{key}</span>
             <div className="flex items-center">
               {isExpanded ? (
-                <div className="mt-2">
+                <div className="mt-1">
                   <MarkdownContent content={value} />
                 </div>
               ) : (
@@ -52,11 +52,11 @@ export function ToolCallArguments({ args }: ToolCallArgumentsProps) {
               </button>
             </div>
           </div>
-          {/* {isExpanded && (
-            <div className="mt-2">
+          {isExpanded && (
+            <div className="mt-1">
               <MarkdownContent content={value} />
             </div>
-          )} */}
+          )}
         </div>
       );
     }
@@ -69,7 +69,7 @@ export function ToolCallArguments({ args }: ToolCallArgumentsProps) {
         : String(value);
 
     return (
-      <div className="mb-2">
+      <div className="mb-1">
         <div className="flex flex-row">
           <span className="font-medium mr- min-w-[140px]2">{key}:</span>
           <pre className="whitespace-pre-wrap">{content}</pre>
