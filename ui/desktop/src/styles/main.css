@@ -327,9 +327,9 @@
     /* Thicker border */
     background-color: transparent;
     /* Set background to transparent */
-    font-family: 'Roboto', sans-serif;
+    font-family: 'Jetbrains Mono, Roboto', sans-serif;
     /* Change to a more tech font */
-    font-size: 12px;
+    font-size: 10px;
     /* Reduce font size slightly */
     font-style: normal;
     font-weight: 700;
@@ -345,7 +345,7 @@
 
   .dark .bg-inline-code {
     color: rgba(248, 155, 89, 1);
-    border: 2px solid rgba(248, 155, 89, 1);
+    border: 0.5px solid rgba(248, 155, 89, 1);
     /* Thicker border for dark mode */
   }
 
