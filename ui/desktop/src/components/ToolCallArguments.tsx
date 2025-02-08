@@ -21,9 +21,11 @@ export function ToolCallArguments({ args }: ToolCallArgumentsProps) {
       if (!needsExpansion) {
         return (
           <div className="mb-1">
-            <div className="flex flex-row">
-              <span className="text-sm font-medium text-textSubtle min-w-[140px]">{key}</span>
-              <span className="text-sm text-textStandard">{value}</span>
+            <div className="flex flex-row items-start">
+              <span className="text-sm font-medium text-textSubtle min-w-[140px] pt-0.5">
+                {key}
+              </span>
+              <span className="text-sm text-textStandard font-mono">{value}</span>
             </div>
           </div>
         );
@@ -33,30 +35,23 @@ export function ToolCallArguments({ args }: ToolCallArgumentsProps) {
         <div className="mb-1">
           <div className="flex flex-row">
             <span className="text-sm font-medium text-textSubtle min-w-[140px]">{key}</span>
-            <div className="flex items-center">
-              {isExpanded ? (
-                <div className="mt-1">
-                  <MarkdownContent content={value} />
-                </div>
-              ) : (
-                <span className="text-sm text-textStandard mr-2">{value.slice(0, 60)}...</span>
-              )}
-              <button
-                onClick={() => toggleKey(key)}
-                className="text-sm hover:opacity-75 text-textStandard"
-              >
-                {/* {isExpanded ? '▼ ' : '▶ '} */}
-                <ChevronUp
-                  className={`h-5 w-5 transition-all origin-center ${!isExpanded ? 'rotate-180' : ''}`}
-                />
-              </button>
+            <div className="flex flex-col flex-1">
+              <div className="flex items-center">
+                <span className="text-sm text-textStandard font-mono mr-2">
+                  {isExpanded ? value : value.slice(0, 60) + '...'}
+                </span>
+                <button
+                  onClick={() => toggleKey(key)}
+                  className="text-sm hover:opacity-75 text-textStandard"
+                  title={isExpanded ? 'Show less' : 'Show more'}
+                >
+                  <ChevronUp
+                    className={`h-5 w-5 transition-all origin-center ${!isExpanded ? 'rotate-180' : ''}`}
+                  />
+                </button>
+              </div>
             </div>
           </div>
-          {isExpanded && (
-            <div className="mt-1">
-              <MarkdownContent content={value} />
-            </div>
-          )}
         </div>
       );
     }
@@ -70,16 +65,16 @@ export function ToolCallArguments({ args }: ToolCallArgumentsProps) {
 
     return (
       <div className="mb-1">
-        <div className="flex flex-row">
-          <span className="font-medium mr- min-w-[140px]2">{key}:</span>
-          <pre className="whitespace-pre-wrap">{content}</pre>
+        <div className="flex flex-row items-start">
+          <span className="text-sm font-medium text-textSubtle min-w-[140px] pt-0.5">{key}</span>
+          <pre className="text-sm text-textStandard font-mono whitespace-pre-wrap">{content}</pre>
         </div>
       </div>
     );
   };
 
   return (
-    <div className="my-2">
+    <div className="space-y-2">
       {Object.entries(args).map(([key, value]) => (
         <div key={key}>{renderValue(key, value)}</div>
       ))}

@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default function Box({ size }: { size: number }) {
+export default function Box({ size, className }: { size: number; className?: string }) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -9,6 +9,7 @@ export default function Box({ size }: { size: number }) {
       height={size}
       viewBox={`0 0 ${size} ${size}`}
       fill="none"
+      className={className}
     >
       <path
         d="M1 4.35L7 1.25L13 4.35M1 4.35L7 7.25M1 4.35V10.75L7 13.75M13 4.35L7 7.25M13 4.35V10.75L7 13.75M7 7.25V13.75"

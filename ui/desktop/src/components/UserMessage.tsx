@@ -9,7 +9,7 @@ export default function UserMessage({ message }) {
   const urls = extractUrls(message.content, []);
 
   return (
-    <div className="user-message flex mt-[16px] w-full animate-[appear_150ms_ease-in_forwards] user-message-bg">
+    <div className="user-message flex w-full animate-[appear_150ms_ease-in_forwards] user-message-bg">
       <Avatar role="user" />
       <div className="flex-col flex-1">
         <div className="flex text-white rounded-xl rounded-br-none py-2 px-3 message-content">

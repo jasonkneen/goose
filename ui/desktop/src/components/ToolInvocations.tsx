@@ -28,15 +28,18 @@ interface ToolInvocationProps {
 
 function ToolInvocation({ toolInvocation }: ToolInvocationProps) {
   const [isExpanded, setIsExpanded] = React.useState(true);
+  const isCompleted = toolInvocation.state === 'result';
 
   return (
-    <div className="w-full">
-      <Card className="overflow-hidden">
+    <div className="w-full mb-2">
+      <Card className="overflow-hidden border-borderSubtle dark:border-gray-700">
         {/* Header with collapse button */}
         <div className="flex items-center justify-between p-4">
           <div className="flex items-center">
-            <Box size={16} />
-            <span className="ml-2 text-textStandard">
+            <div className={isCompleted ? 'text-green-500' : 'text-blue-500'}>
+              {isCompleted ? <span>✓</span> : <Box size={16} />}
+            </div>
+            <span className={`ml-2 ${isCompleted ? 'text-textStandard' : 'text-blue-500'}`}>
               {snakeToTitleCase(
                 toolInvocation.toolName.substring(toolInvocation.toolName.lastIndexOf('__') + 2)
               )}
@@ -56,12 +59,18 @@ function ToolInvocation({ toolInvocation }: ToolInvocationProps) {
         {/* Collapsible content */}
         {isExpanded && (
           <div className="px-4 pb-4">
-            {toolInvocation.args && <ToolCallArguments args={toolInvocation.args} />}
+            {toolInvocation.args && (
+              <div className="font-mono text-sm bg-bgSubtle rounded-lg p-3 mb-3">
+                <ToolCallArguments args={toolInvocation.args} />
+              </div>
+            )}
             <div className="self-stretch h-px my-[10px] -mx-4 bg-borderSubtle dark:bg-gray-700" />
             {toolInvocation.state === 'result' ? (
               <ToolResult result={toolInvocation} />
             ) : (
-              <LoadingPlaceholder />
+              <div className="text-blue-500">
+                <LoadingPlaceholder />
+              </div>
             )}
           </div>
         )}

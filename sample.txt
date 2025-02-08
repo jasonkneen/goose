@@ -1,0 +1,3 @@
+Hello! This is a sample file.
+It contains multiple lines of text.
+We can read and write this file using the text editor tools.
