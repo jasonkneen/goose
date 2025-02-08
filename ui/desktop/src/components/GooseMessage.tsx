@@ -29,14 +29,14 @@ export default function GooseMessage({ message, metadata, messages, append }: Go
       <div className="flex flex-col w-full">
         {message.content && (
           <div
-            className={`goose-message-content bg-bgSubtle rounded-2xl px-4 py-2 ${message.toolInvocations ? 'rounded-b-none' : ''}`}
+            className={`goose-message-content bg-bgSubtle rounded-2xl px-4 py-1.5 ${message.toolInvocations ? 'rounded-b-none' : ''} text-textStandard`}
           >
             <MarkdownContent content={message.content} />
           </div>
         )}
 
         {message.toolInvocations && (
-          <div className="goose-message-tool bg-bgApp border-x border-b border-borderSubtle dark:border-gray-700 rounded-b-2xl px-4 pt-4 pb-2">
+          <div className="goose-message-tool bg-bgApp border-x border-b border-borderSubtle dark:border-gray-700 rounded-b-2xl px-4 pt-2 pb-2">
             <ToolInvocations toolInvocations={message.toolInvocations} />
           </div>
         )}

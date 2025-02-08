@@ -121,9 +121,9 @@ export function ChatContent({
   }, [messages]);
 
   // Handle submit
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = (e: { detail?: { value: string } }) => {
     window.electron.startPowerSaveBlocker();
-    const content = (e as any).detail?.value || '';
+    const content = e.detail?.value || '';
     if (content.trim()) {
       setLastInteractionTime(Date.now());
       append({
@@ -192,13 +192,13 @@ export function ChatContent({
         <MoreMenu />
       </div>
       <div className="w-full max-w-3xl mx-auto">
-        <Card className="flex flex-col flex-1 rounded-none h-[calc(100vh-90px)] w-full bg-bgApp mt-0 border-none relative">
+        <Card className="flex flex-col flex-1 rounded-2xl h-[calc(100vh-90px)] w-full bg-bgApp mt-0 border-none relative mb-[58px]">
           {messages.length === 0 ? (
             <Splash append={append} />
           ) : (
             <ScrollArea ref={scrollRef} className="flex-1 px-3" autoScroll>
               {messages.map((message) => (
-                <div key={message.id} className="mt-[12px]">
+                <div key={message.id} className="mt-[8px]">
                   {message.role === 'user' ? (
                     <UserMessage message={message} />
                   ) : (
@@ -256,9 +256,13 @@ export function ChatContent({
               isLoading={isLoading}
               onStop={onStopGoose}
             />
-            <BottomMenu hasMessages={hasMessages} />
           </div>
         </Card>
+        <div className="fixed bottom-0 left-0 right-0 bg-bgApp border-t border-borderSubtle py-2">
+          <div className="max-w-3xl mx-auto px-4">
+            <BottomMenu hasMessages={hasMessages} />
+          </div>
+        </div>
       </div>
 
       {showGame && <FlappyGoose onClose={() => setShowGame(false)} />}

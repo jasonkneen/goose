@@ -12,7 +12,7 @@ export default function UserMessage({ message }) {
     <div className="user-message flex w-full animate-[appear_150ms_ease-in_forwards] user-message-bg">
       <Avatar role="user" />
       <div className="flex-col flex-1">
-        <div className="flex text-white rounded-xl rounded-br-none py-2 px-3 message-content">
+        <div className="flex text-white rounded-xl rounded-br-none py-1.5 px-3 message-content font-medium">
           <MarkdownContent content={message.content} className="text-white" />
         </div>
 

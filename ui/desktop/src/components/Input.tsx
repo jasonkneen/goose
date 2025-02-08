@@ -4,7 +4,7 @@ import Stop from './ui/Stop';
 import { Attach, Send } from './icons';
 
 interface InputProps {
-  handleSubmit: (e: React.FormEvent) => void;
+  handleSubmit: (e: { detail?: { value: string } }) => void;
   disabled?: boolean;
   isLoading?: boolean;
   onStop?: () => void;
@@ -74,9 +74,10 @@ export default function Input({
   return (
     <form
       onSubmit={onFormSubmit}
-      className="flex relative h-auto px-[16px] pr-[68px] py-[1rem] border-t border-borderSubtle bg-bgApp"
+      className={`flex relative h-auto px-[16px] pr-[68px] py-[1rem] bg-bgApp rounded-2xl mx-4 mb-4 animated-gradient-border ${
+        isLoading ? 'active' : ''
+      }`}
     >
-      <div className="chat-divider absolute top-0 left-0 right-0" />
       {/* loading */}
       {/* {isLoading && (
         <div className="absolute top-[-2px] left-0 w-full h-[2px]">

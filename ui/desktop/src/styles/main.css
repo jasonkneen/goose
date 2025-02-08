@@ -6,12 +6,12 @@
 /* Message Background & Content Styling */
 .message-bg {
   background-color: transparent;
-  color: #1a1a1a;
+  color: var(--text-standard);
   animation: fadeIn 0.5s ease-out;
 }
 .message-content {
   background-color: #f7f7f7;
-  color: #1a1a1a;
+  color: var(--text-standard);
   -webkit-backdrop-filter: blur(10px);
   backdrop-filter: blur(10px);
   border: 1px solid #e5e5e5;
@@ -25,14 +25,14 @@
 }
 
 .user-message-bg .message-content {
-  background-color: #1a1a1a;
-  color: #ffffff;
+  background-color: var(--slate);
+  color: var(--constant-white);
   border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .goose-message-content {
   background-color: #f7f7f7;
-  color: #1a1a1a;
+  color: var(--text-standard);
   border: 1px solid #e5e5e5;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
   overflow-wrap: break-word;
@@ -42,7 +42,7 @@
 
 .goose-message-tool {
   background-color: #f0f0f0;
-  color: #1a1a1a;
+  color: var(--text-standard);
   border: 1px solid #e5e5e5;
   -webkit-backdrop-filter: blur(10px);
   backdrop-filter: blur(10px);
@@ -59,7 +59,7 @@
 
 .goose-message-tool .card {
   background-color: #f7f7f7;
-  color: #1a1a1a;
+  color: var(--text-standard);
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
   margin: 0;
   border-radius: 0 0 0.75rem 0.75rem;
@@ -73,7 +73,7 @@
 
 .card {
   background-color: #f7f7f7;
-  color: #1a1a1a;
+  color: var(--text-standard);
   border: 1px solid #e5e5e5;
   border-radius: 0 0 0.75rem 0.75rem;
   overflow-wrap: break-word;
@@ -83,7 +83,7 @@
 
 .panel {
   background-color: #f0f0f0;
-  color: #1a1a1a;
+  color: var(--text-standard);
   border: 1px solid #e5e5e5;
   border-radius: 0 0 0.75rem 0.75rem;
   overflow-wrap: break-word;
@@ -265,10 +265,10 @@
     --icon-standard: #1a1a1a;
     --icon-subtle: #4d4d4d;
 
-    --text-placeholder: var(--grey-50);
+    --text-placeholder: #666666;
     --text-prominent: #000000;
-    --text-standard: #1a1a1a;
-    --text-subtle: #404040;
+    --text-standard: #000000;
+    --text-subtle: #333333;
 
     &.dark {
       --background-app: var(--constant-dark);
@@ -299,6 +299,117 @@
   }
 }
 @layer components {
+  /* Animated gradient effect */
+  @keyframes gradient-animation {
+    0% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+    100% {
+      background-position: 0% 50%;
+    }
+  }
+
+  .animated-gradient-border {
+    position: relative;
+    background-color: var(--background-app);
+    border-radius: inherit;
+    isolation: isolate;
+  }
+
+  .animated-gradient-border > * {
+    position: relative;
+    z-index: 3;
+  }
+
+  /* Default border */
+  .animated-gradient-border::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border: 1px solid var(--border-subtle);
+    border-radius: inherit;
+    z-index: 1;
+    transition: opacity 0.3s ease;
+  }
+
+  /* Gradient border */
+  .animated-gradient-border::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    padding: 1px;
+    background: linear-gradient(45deg, #2e7cf6, rgba(242, 0, 255, 0.25), rgba(250, 193, 69, 0.67));
+    background-size: 200% 200%;
+    border-radius: inherit;
+    -webkit-mask:
+      linear-gradient(#fff 0 0) content-box,
+      linear-gradient(#fff 0 0);
+    mask:
+      linear-gradient(#fff 0 0) content-box,
+      linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    z-index: 2;
+  }
+
+  .animated-gradient-border:hover::before,
+  .animated-gradient-border:focus-within::before {
+    opacity: 0;
+  }
+
+  .animated-gradient-border:hover::after,
+  .animated-gradient-border:focus-within::after {
+    opacity: 1;
+    background-position: 0% 50%;
+  }
+
+  .animated-gradient-border.active::after {
+    opacity: 1;
+    animation: gradient-animation 3s ease infinite;
+  }
+
+  .dark .animated-gradient-border::before {
+    border-color: rgba(255, 255, 255, 0.1);
+  }
+
+  /* Static gradient effect */
+  .gradient-border {
+    position: relative;
+    border: 1px solid transparent;
+    background-clip: padding-box;
+  }
+
+  .gradient-border::before {
+    content: '';
+    position: absolute;
+    inset: -1px;
+    z-index: -1;
+    background: linear-gradient(45deg, #2e7cf6, rgba(242, 0, 255, 0.25), rgba(250, 193, 69, 0.67));
+    border-radius: inherit;
+    transition: opacity 0.3s ease;
+    opacity: 0.5;
+  }
+
+  .gradient-border:hover::before {
+    opacity: 1;
+  }
+
+  /* For elements that need the gradient as a stroke (like SVG) */
+  .gradient-stroke {
+    stroke: url(#paint0_linear_113_4015);
+    transition: opacity 0.3s ease;
+    opacity: 0.5;
+  }
+
+  .gradient-stroke:hover {
+    opacity: 1;
+  }
+
   .text-glow {
     text-shadow:
       0 0 0.5px rgba(255, 255, 255, 0.6),
@@ -376,7 +487,7 @@
   .card {
     @apply px-4 py-2;
     background-color: #f7f7f7;
-    color: #1a1a1a;
+    color: var(--text-standard);
     border: 1px solid #e5e5e5;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
     border-radius: 0 0 0.75rem 0.75rem;
@@ -397,7 +508,7 @@
   .panel {
     @apply px-4 py-2;
     background-color: #f0f0f0;
-    color: #1a1a1a;
+    color: var(--text-standard);
     border: 1px solid #e5e5e5;
     border-radius: 0 0 0.75rem 0.75rem;
     overflow-wrap: break-word;
@@ -406,7 +517,7 @@
 
   .split-panel-header {
     background-color: #e5e5e5;
-    color: #1a1a1a;
+    color: var(--text-standard);
     font-weight: bold;
     border: 1px solid #e5e5e5;
     border-bottom: none;
@@ -414,7 +525,7 @@
 
   .input-box {
     background-color: #f7f7f7;
-    color: #1a1a1a;
+    color: var(--text-standard);
     border-top: 1px solid #e5e5e5;
     position: relative;
   }
@@ -434,7 +545,7 @@
   }
 
   .folder-model-label {
-    color: rgba(0, 0, 0, 0.45);
+    color: var(--text-subtle);
     font-weight: 500;
   }
 
@@ -453,7 +564,7 @@
 
   .help-question {
     font-weight: 500;
-    color: #1a1a1a;
+    color: var(--text-standard);
     margin-bottom: 0.5rem;
   }
 
@@ -468,7 +579,7 @@
   }
 
   .dark .help-question {
-    color: #ffffff;
+    color: var(--constant-white);
   }
 
   .dark .split-panel-header {
@@ -478,8 +589,8 @@
   }
 
   .dark .input-box {
-    background-color: #1a1f28;
-    color: #ffffff;
+    background-color: var(--dark-grey-25);
+    color: var(--constant-white);
     border-top: 2px solid rgba(255, 255, 255, 0.2);
   }
   .dark .folder-model-label {

@@ -9,14 +9,8 @@ export default function Box({ size, className }: { size: number; className?: str
       height={size}
       viewBox={`0 0 ${size} ${size}`}
       fill="none"
-      className={className}
+      className={`${className} gradient-stroke`}
     >
-      <path
-        d="M1 4.35L7 1.25L13 4.35M1 4.35L7 7.25M1 4.35V10.75L7 13.75M13 4.35L7 7.25M13 4.35V10.75L7 13.75M7 7.25V13.75"
-        stroke="url(#paint0_linear_113_4015)"
-        strokeWidth="2"
-        strokeLinecap="round"
-      />
       <defs>
         <linearGradient
           id="paint0_linear_113_4015"
@@ -31,6 +25,11 @@ export default function Box({ size, className }: { size: number; className?: str
           <stop offset="0.615048" stopColor="#FAC145" stopOpacity="0.669964" />
         </linearGradient>
       </defs>
+      <path
+        d="M1 4.35L7 1.25L13 4.35M1 4.35L7 7.25M1 4.35V10.75L7 13.75M13 4.35L7 7.25M13 4.35V10.75L7 13.75M7 7.25V13.75"
+        strokeWidth="2"
+        strokeLinecap="round"
+      />
     </svg>
   );
 }

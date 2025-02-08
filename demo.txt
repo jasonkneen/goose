@@ -1,3 +1,3 @@
 Hello! This is a demo file.
-This line has been modified!
-And a third line.
+It contains multiple lines of text.
+We can write and read this file using the text editor tools.

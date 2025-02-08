@@ -1,0 +1,2 @@
+This is a test file.
+Everything seems to be working correctly.
