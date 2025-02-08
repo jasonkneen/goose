@@ -26,11 +26,7 @@ import Splash from './components/Splash';
 export interface Chat {
   id: number;
   title: string;
-  messages: Array<{
-    id: string;
-    role: 'function' | 'system' | 'user' | 'assistant' | 'data' | 'tool';
-    content: string;
-  }>;
+  messages: Message[];
 }
 
 export function ChatContent({
@@ -127,8 +123,7 @@ export function ChatContent({
   // Handle submit
   const handleSubmit = (e: React.FormEvent) => {
     window.electron.startPowerSaveBlocker();
-    const customEvent = e as CustomEvent;
-    const content = customEvent.detail?.value || '';
+    const content = (e as any).detail?.value || '';
     if (content.trim()) {
       setLastInteractionTime(Date.now());
       append({
@@ -196,71 +191,75 @@ export function ChatContent({
       <div className="relative flex items-center h-[32px] w-full bg-bgSubtle border-b border-borderSubtle">
         <MoreMenu />
       </div>
-      <Card className="flex flex-col flex-1 rounded-none h-[calc(100vh-90px)] w-full bg-bgApp mt-0 border-none relative">
-        {messages.length === 0 ? (
-          <Splash append={append} />
-        ) : (
-          <ScrollArea ref={scrollRef} className="flex-1 px-3" autoScroll>
-            {messages.map((message) => (
-              <div key={message.id} className="mt-[12px]">
-                {message.role === 'user' ? (
-                  <UserMessage message={message} />
-                ) : (
-                  <GooseMessage
-                    message={message}
-                    messages={messages}
-                    metadata={messageMetadata[message.id]}
-                    append={append}
-                  />
-                )}
-              </div>
-            ))}
-            {/* {isLoading && (
+      <div className="w-full max-w-3xl mx-auto">
+        <Card className="flex flex-col flex-1 rounded-none h-[calc(100vh-90px)] w-full bg-bgApp mt-0 border-none relative">
+          {messages.length === 0 ? (
+            <Splash append={append} />
+          ) : (
+            <ScrollArea ref={scrollRef} className="flex-1 px-3" autoScroll>
+              {messages.map((message) => (
+                <div key={message.id} className="mt-[12px]">
+                  {message.role === 'user' ? (
+                    <UserMessage message={message} />
+                  ) : (
+                    <GooseMessage
+                      message={message}
+                      messages={messages}
+                      metadata={messageMetadata[message.id]}
+                      append={append}
+                    />
+                  )}
+                </div>
+              ))}
+              {/* {isLoading && (
               <div className="flex items-center justify-center p-4">
                 <div onClick={() => setShowGame(true)} style={{ cursor: 'pointer' }}>
                 </div>
               </div>
             )} */}
-            {error && (
-              <div className="flex flex-col items-center justify-center p-4">
-                <div className="text-red-700 dark:text-red-300 bg-red-400/50 p-3 rounded-lg mb-1">
-                  {error.message || 'Honk! Goose experienced an error while responding'}
-                  {error.status && <span className="ml-2">(Status: {error.status})</span>}
+              {error && (
+                <div className="flex flex-col items-center justify-center p-4">
+                  <div className="text-red-700 dark:text-red-300 bg-red-400/50 p-3 rounded-lg mb-1">
+                    {error.message || 'Honk! Goose experienced an error while responding'}
+                    {(error as any).status && (
+                      <span className="ml-2">(Status: {(error as any).status})</span>
+                    )}
+                  </div>
+                  <div
+                    className="px-3 py-2 mt-1 text-center whitespace-nowrap cursor-pointer text-textStandard border border-borderSubtle hover:bg-bgSubtle rounded-full inline-block transition-all duration-150"
+                    onClick={async () => {
+                      const lastUserMessage = messages.reduceRight(
+                        (found, m) => found || (m.role === 'user' ? m : null),
+                        null
+                      );
+                      if (lastUserMessage) {
+                        append({
+                          role: 'user',
+                          content: lastUserMessage.content,
+                        });
+                      }
+                    }}
+                  >
+                    Retry Last Message
+                  </div>
                 </div>
-                <div
-                  className="px-3 py-2 mt-1 text-center whitespace-nowrap cursor-pointer text-textStandard border border-borderSubtle hover:bg-bgSubtle rounded-full inline-block transition-all duration-150"
-                  onClick={async () => {
-                    const lastUserMessage = messages.reduceRight(
-                      (found, m) => found || (m.role === 'user' ? m : null),
-                      null
-                    );
-                    if (lastUserMessage) {
-                      append({
-                        role: 'user',
-                        content: lastUserMessage.content,
-                      });
-                    }
-                  }}
-                >
-                  Retry Last Message
-                </div>
-              </div>
-            )}
-            <div className="block h-16" />
-          </ScrollArea>
-        )}
+              )}
+              <div className="block h-16" />
+            </ScrollArea>
+          )}
 
-        <div className="relative">
-          {isLoading && <LoadingGoose />}
-          <Input
-            handleSubmit={handleSubmit}
-            disabled={isLoading}
-            isLoading={isLoading}
-            onStop={onStopGoose}
-          />
-          <BottomMenu hasMessages={hasMessages} />
-        </div>
-      </Card>
+          <div className="relative">
+            {isLoading && <LoadingGoose />}
+            <Input
+              handleSubmit={handleSubmit}
+              disabled={isLoading}
+              isLoading={isLoading}
+              onStop={onStopGoose}
+            />
+            <BottomMenu hasMessages={hasMessages} />
+          </div>
+        </Card>
+      </div>
 
       {showGame && <FlappyGoose onClose={() => setShowGame(false)} />}
     </div>
