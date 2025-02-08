@@ -9,16 +9,19 @@ export default function UserMessage({ message }) {
   const urls = extractUrls(message.content, []);
 
   return (
-    <div className="user-message flex w-full animate-[appear_150ms_ease-in_forwards] user-message-bg">
+    <div className="group relative flex items-start gap-3 py-4 px-4">
       <Avatar role="user" />
-      <div className="flex-col flex-1">
-        <div className="flex text-white rounded-xl rounded-br-none py-1 px-3 message-content font-medium">
-          <MarkdownContent content={message.content} className="text-white text-base" />
+      <div className="flex-1 space-y-2 overflow-hidden">
+        <div className="flex flex-col items-start gap-2">
+          <div className="rounded-2xl rounded-tl-none bg-primary px-4 py-2 text-white shadow-md">
+            <MarkdownContent
+              content={message.content}
+              className="prose-sm prose-invert max-w-none"
+            />
+          </div>
         </div>
-
-        {/* TODO(alexhancock): Re-enable link previews once styled well again */}
-        {false && urls.length > 0 && (
-          <div className="flex flex-wrap mt-1">
+        {urls.length > 0 && (
+          <div className="flex flex-wrap gap-2">
             {urls.map((url, index) => (
               <LinkPreview key={index} url={url} />
             ))}

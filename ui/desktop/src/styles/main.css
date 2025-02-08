@@ -21,7 +21,7 @@
 
 .user-message-bg {
   background-color: transparent;
-  color: #ffffff !important;
+  color: var(--constant-white);
   animation: fadeIn 0.5s ease-out;
 }
 
@@ -29,6 +29,17 @@
   background-color: var(--slate);
   color: var(--constant-white);
   border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.dark .user-message-bg {
+  color: var(--dark-grey-90);
+}
+
+.dark .user-message-bg .message-content {
+  background-color: var(--dark-grey-30);
+  border-color: rgba(255, 255, 255, 0.15);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 .goose-message-content {
@@ -84,13 +95,20 @@
 }
 
 .panel {
-  background-color: #f0f0f0;
+  background-color: var(--background-prominent);
   color: var(--text-standard);
-  border: 1px solid #e5e5e5;
-  border-radius: 0 0 0.75rem 0.75rem;
+  border: 1px solid var(--border-standard);
+  border-radius: 0.75rem 0.75rem 0.75rem 0;
   overflow-wrap: break-word;
   @apply px-4 py-2;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.dark .panel {
+  background: var(--dark-grey-25);
+  color: var(--dark-grey-90);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 /* Dark mode overrides */
@@ -149,13 +167,6 @@
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
-.dark .panel {
-  background: var(--dark-grey-25);
-  color: var(--dark-grey-90);
-  box-shadow: 0 0 0 1px rgba(240, 246, 252, 0.1);
-  border-radius: 0 0 0.75rem 0.75rem;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-}
 /* Cash Sans Font */
 @font-face {
   font-family: Cash Sans;
@@ -191,6 +202,46 @@
 
 @layer base {
   :root {
+    /* shadcn color variables */
+    --background: 0 0% 100%;
+    --foreground: 240 10% 3.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 240 10% 3.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 240 10% 3.9%;
+    --primary: 240 5.9% 10%;
+    --primary-foreground: 0 0% 98%;
+    --secondary: 240 4.8% 95.9%;
+    --secondary-foreground: 240 5.9% 10%;
+    --muted: 240 4.8% 95.9%;
+    --muted-foreground: 240 3.8% 46.1%;
+    --accent: 240 4.8% 95.9%;
+    --accent-foreground: 240 5.9% 10%;
+    --border: 240 5.9% 90%;
+    --input: 240 5.9% 90%;
+    --ring: 240 5.9% 10%;
+
+    &.dark {
+      --background: 240 10% 3.9%;
+      --foreground: 0 0% 98%;
+      --card: 240 10% 3.9%;
+      --card-foreground: 0 0% 98%;
+      --popover: 240 10% 3.9%;
+      --popover-foreground: 0 0% 98%;
+      --primary: 0 0% 98%;
+      --primary-foreground: 240 5.9% 10%;
+      --secondary: 240 3.7% 15.9%;
+      --secondary-foreground: 0 0% 98%;
+      --muted: 240 3.7% 15.9%;
+      --muted-foreground: 240 5% 64.9%;
+      --accent: 240 3.7% 15.9%;
+      --accent-foreground: 0 0% 98%;
+      --border: 240 3.7% 15.9%;
+      --input: 240 3.7% 15.9%;
+      --ring: 240 4.9% 83.9%;
+    }
+
+    /* Original variables */
     --spring-easing: linear(
       0,
       0.009,
@@ -343,7 +394,7 @@
     position: absolute;
     inset: 0;
     padding: 1px;
-    background: linear-gradient(45deg, #2e7cf6, rgba(242, 0, 255, 0.25), rgba(250, 193, 69, 0.67));
+    background: linear-gradient(45deg, #2e7cf6, rgba(242, 0, 255, 0.5), rgba(250, 193, 69, 0.8));
     background-size: 200% 200%;
     border-radius: inherit;
     -webkit-mask:
@@ -357,6 +408,15 @@
     opacity: 0;
     transition: opacity 0.3s ease;
     z-index: 2;
+  }
+
+  .animated-gradient-border.active::after {
+    opacity: 1;
+    animation: gradient-animation 3s ease infinite;
+  }
+
+  .dark .animated-gradient-border::after {
+    background: linear-gradient(45deg, #2e7cf6, rgba(242, 0, 255, 0.7), rgba(250, 193, 69, 0.9));
   }
 
   .animated-gradient-border:hover::before,
@@ -482,7 +542,8 @@
   }
 
   .dark .bg-inline-code {
-    color: rgba(248, 155, 89, 0.7);
+    color: rgba(248, 155, 89, 0.9);
+    background-color: rgba(248, 155, 89, 0.15);
   }
 
   /* Card Styling */
@@ -526,10 +587,34 @@
   }
 
   .input-box {
-    background-color: #f7f7f7;
+    background-color: var(--background-standard);
     color: var(--text-standard);
-    border-top: 1px solid #e5e5e5;
+    border-top: 1px solid var(--border-standard);
     position: relative;
+  }
+
+  .input-box textarea {
+    color: inherit;
+  }
+
+  .input-box textarea::placeholder {
+    color: var(--text-placeholder);
+    opacity: 0.5;
+    transition: opacity 0.2s ease;
+  }
+
+  .input-box textarea:focus::placeholder {
+    opacity: 0;
+  }
+
+  .dark .input-box textarea {
+    color: var(--constant-white);
+    caret-color: var(--constant-white);
+  }
+
+  .dark .input-box textarea::placeholder {
+    color: var(--dark-grey-60);
+    opacity: 0.4;
   }
 
   .input-box::before {
@@ -596,9 +681,11 @@
   }
 
   .dark .input-box {
-    background-color: var(--dark-grey-25);
+    background-color: var(--dark-grey-15);
     color: var(--constant-white);
-    border-top: 2px solid rgba(255, 255, 255, 0.2);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(8px);
   }
   .dark .folder-model-label {
     color: rgba(255, 255, 255, 0.7);

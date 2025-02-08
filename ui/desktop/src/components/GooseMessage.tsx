@@ -24,40 +24,39 @@ export default function GooseMessage({ message, metadata, messages, append }: Go
   const urls = !message.toolInvocations ? extractUrls(message.content, previousUrls) : [];
 
   return (
-    <div className="goose-message flex w-full opacity-0 animate-[appear_150ms_ease-in_forwards]">
+    <div className="group relative flex items-start gap-3 py-4 px-4 opacity-0 animate-[appear_150ms_ease-in_forwards]">
       <Avatar role="assistant" />
-      <div className="flex flex-col w-full">
-        {message.content && (
-          <div
-            className={`goose-message-content bg-bgSubtle rounded-2xl px-4 py-1 ${message.toolInvocations ? 'rounded-b-none' : ''} text-textStandard text-base`}
-          >
-            <MarkdownContent content={message.content} className="text-base" />
+      <div className="flex-1 space-y-2 overflow-hidden">
+        <div className="flex flex-col items-start gap-2">
+          {message.content && (
+            <div
+              className={`rounded-2xl rounded-tr-none bg-muted px-4 py-2 text-muted-foreground shadow-sm ${message.toolInvocations ? 'rounded-b-none border-b-0' : ''}`}
+            >
+              <MarkdownContent content={message.content} className="prose-sm max-w-none" />
+            </div>
+          )}
+
+          {message.toolInvocations && (
+            <div className="w-full bg-muted/50 border border-t-0 border-border/50 rounded-2xl rounded-t-none px-4 py-2">
+              <ToolInvocations toolInvocations={message.toolInvocations} />
+            </div>
+          )}
+        </div>
+
+        {urls.length > 0 && (
+          <div className="flex flex-wrap gap-2">
+            {urls.map((url, index) => (
+              <LinkPreview key={index} url={url} />
+            ))}
           </div>
         )}
 
-        {message.toolInvocations && (
-          <div className="goose-message-tool bg-bgApp border-x border-b border-borderSubtle dark:border-gray-700 rounded-b-2xl px-4 pt-2 pb-2">
-            <ToolInvocations toolInvocations={message.toolInvocations} />
+        {metadata && (
+          <div className="flex">
+            <GooseResponseForm message={message.content} metadata={metadata} append={append} />
           </div>
         )}
       </div>
-
-      {/* TODO(alexhancock): Re-enable link previews once styled well again */}
-      {true && urls.length > 0 && (
-        <div className="flex flex-wrap mt-[12px]">
-          {urls.map((url, index) => (
-            <LinkPreview key={index} url={url} />
-          ))}
-        </div>
-      )}
-
-      {/* enable or disable prompts here */}
-      {/* NOTE from alexhancock on 1/14/2025 - disabling again temporarily due to non-determinism in when the forms show up */}
-      {true && metadata && (
-        <div className="flex mt-[12px]">
-          <GooseResponseForm message={message.content} metadata={metadata} append={append} />
-        </div>
-      )}
     </div>
   );
 }

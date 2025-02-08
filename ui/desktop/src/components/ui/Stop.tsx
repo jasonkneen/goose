@@ -2,9 +2,10 @@ import React from 'react';
 
 interface StopProps {
   size?: number;
+  className?: string;
 }
 
-export default function Stop({ size = 24 }: StopProps) {
+export default function Stop({ size = 24, className }: StopProps) {
   return (
     <svg
       width={size}

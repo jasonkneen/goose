@@ -57,41 +57,46 @@ export default {
         'gradient-loader': 'loader 750ms ease-in-out infinite',
       },
       colors: {
-        // Background colors
+        border: "hsl(var(--border))",
+        input: "hsl(var(--input))",
+        ring: "hsl(var(--ring))",
+        background: "hsl(var(--background))",
+        foreground: "hsl(var(--foreground))",
+        primary: {
+          DEFAULT: "hsl(var(--primary))",
+          foreground: "hsl(var(--primary-foreground))",
+        },
+        secondary: {
+          DEFAULT: "hsl(var(--secondary))",
+          foreground: "hsl(var(--secondary-foreground))",
+        },
+        muted: {
+          DEFAULT: "hsl(var(--muted))",
+          foreground: "hsl(var(--muted-foreground))",
+        },
+        accent: {
+          DEFAULT: "hsl(var(--accent))",
+          foreground: "hsl(var(--accent-foreground))",
+        },
+        
+        // Keep our existing custom colors
         bgApp: 'var(--background-app)',
         bgSubtle: 'var(--background-subtle)',
         bgStandard: 'var(--background-standard)',
         bgProminent: 'var(--background-prominent)',
-
-        // Border colors
         borderSubtle: 'var(--border-subtle)',
         borderStandard: 'var(--border-standard)',
-
-        // Text colors
         textProminent: 'var(--text-prominent)',
         textStandard: 'var(--text-standard)',
         textSubtle: 'var(--text-subtle)',
         textPlaceholder: 'var(--text-placeholder)',
-
-        // Icon colors
         iconProminent: 'var(--icon-prominent)',
         iconStandard: 'var(--icon-standard)',
         iconSubtle: 'var(--icon-subtle)',
         iconExtraSubtle: 'var(--icon-extra-subtle)',
-
-        // Custom colors
         slate: 'var(--slate)',
         blockTeal: 'var(--block-teal)',
         blockOrange: 'var(--block-orange)',
-
-        // Dark mode specific colors
-        'dark-grey-15': '#1E1E1E',
-        'dark-grey-25': '#1a1f28',
-        'dark-grey-30': '#252b33',
-        'dark-grey-40': '#363636',
-        'dark-grey-45': '#8b949e',
-        'dark-grey-60': '#c9d1d9',
-        'dark-grey-90': '#f0f6fc',
       },
       // Add box shadow utilities
       boxShadow: {

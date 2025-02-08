@@ -74,20 +74,14 @@ export default function Input({
   return (
     <form
       onSubmit={onFormSubmit}
-      className={`flex relative h-auto px-[16px] pr-[68px] py-[1rem] bg-bgApp rounded-2xl mx-4 mb-4 animated-gradient-border ${
-        isLoading ? 'active' : ''
+      className={`relative flex w-full items-center gap-2 rounded-xl animated-gradient-border active px-3 py-2 mx-4 mb-4 ${
+        isLoading ? 'animate-pulse' : ''
       }`}
     >
-      {/* loading */}
-      {/* {isLoading && (
-        <div className="absolute top-[-2px] left-0 w-full h-[2px]">
-          <div className="absolute w-[300px] h-[2px] bg-gradient-to-r from-blockTeal to-blockOrange animate-gradient-loader"></div>
-        </div>
-      )} */}
       <textarea
         autoFocus
         id="dynamic-textarea"
-        placeholder="What can goose help with?"
+        placeholder="Type a message..."
         value={value}
         onChange={handleChange}
         onKeyDown={handleKeyDown}
@@ -99,45 +93,41 @@ export default function Input({
           maxHeight: `${maxHeight}px`,
           overflowY: 'auto',
         }}
-        className={`w-full outline-none border-none focus:ring-0 bg-transparent p-0 text-base resize-none text-textStandard ${
-          disabled ? 'cursor-not-allowed opacity-50' : ''
-        }`}
+        className="flex-1 resize-none bg-transparent px-2 py-1.5 outline-none disabled:opacity-50 text-black dark:text-white"
       />
-      <Button
-        type="button"
-        size="icon"
-        variant="ghost"
-        onClick={handleFileSelect}
-        disabled={disabled}
-        className={`absolute right-[40px] top-1/2 -translate-y-1/2 text-textSubtle hover:text-textStandard ${
-          disabled ? 'text-textSubtle cursor-not-allowed' : ''
-        }`}
-      >
-        <Attach />
-      </Button>
-      {isLoading ? (
+      <div className="flex items-center gap-2">
         <Button
           type="button"
           size="icon"
           variant="ghost"
-          onClick={onStop}
-          className="absolute right-2 top-1/2 -translate-y-1/2 [&_svg]:size-5 text-textSubtle hover:text-textStandard"
+          onClick={handleFileSelect}
+          disabled={disabled}
+          className="h-8 w-8 shrink-0 hover:bg-transparent text-black dark:text-white"
         >
-          <Stop size={24} />
+          <Attach className="h-4 w-4 text-inherit" />
         </Button>
-      ) : (
-        <Button
-          type="submit"
-          size="icon"
-          variant="ghost"
-          disabled={disabled || !value.trim()}
-          className={`absolute right-2 top-1/2 -translate-y-1/2 text-textSubtle hover:text-textStandard ${
-            disabled || !value.trim() ? 'text-textSubtle cursor-not-allowed' : ''
-          }`}
-        >
-          <Send />
-        </Button>
-      )}
+        {isLoading ? (
+          <Button
+            type="button"
+            size="icon"
+            variant="ghost"
+            onClick={onStop}
+            className="h-8 w-8 shrink-0 hover:bg-transparent text-black dark:text-white"
+          >
+            <Stop size={16} className="text-inherit" />
+          </Button>
+        ) : (
+          <Button
+            type="submit"
+            size="icon"
+            variant="ghost"
+            disabled={disabled || !value.trim()}
+            className="h-8 w-8 shrink-0 hover:bg-transparent text-black dark:text-white"
+          >
+            <Send className="h-4 w-4 text-inherit" />
+          </Button>
+        )}
+      </div>
     </form>
   );
 }
