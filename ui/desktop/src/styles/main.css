@@ -380,78 +380,85 @@
     }
   }
 
+  @keyframes glow-animation {
+    0% {
+      box-shadow:
+        0 0 5px rgba(46, 124, 246, 0.2),
+        0 0 15px rgba(242, 0, 255, 0.1),
+        0 0 25px rgba(250, 193, 69, 0.1);
+    }
+    25% {
+      box-shadow:
+        0 0 15px rgba(46, 124, 246, 0.4),
+        0 0 25px rgba(242, 0, 255, 0.2),
+        0 0 35px rgba(250, 193, 69, 0.1);
+    }
+    50% {
+      box-shadow:
+        0 0 25px rgba(46, 124, 246, 0.3),
+        0 0 35px rgba(242, 0, 255, 0.4),
+        0 0 45px rgba(250, 193, 69, 0.2);
+    }
+    75% {
+      box-shadow:
+        0 0 15px rgba(46, 124, 246, 0.2),
+        0 0 25px rgba(242, 0, 255, 0.3),
+        0 0 35px rgba(250, 193, 69, 0.4);
+    }
+    100% {
+      box-shadow:
+        0 0 5px rgba(46, 124, 246, 0.2),
+        0 0 15px rgba(242, 0, 255, 0.1),
+        0 0 25px rgba(250, 193, 69, 0.1);
+    }
+  }
+
   .animated-gradient-border {
-    position: relative;
+    border: 1px solid var(--border-subtle);
     background-color: var(--background-app);
     border-radius: inherit;
-    isolation: isolate;
+    position: relative;
+  }
+
+  .dark .animated-gradient-border {
+    border-color: rgba(255, 255, 255, 0.1);
+  }
+
+  .animated-gradient-border:focus-within {
+    border: none;
+  }
+
+  .animated-gradient-border:focus-within::before {
+    content: '';
+    position: absolute;
+    inset: -1px;
+    background: linear-gradient(45deg, #2e7cf6, rgba(242, 0, 255, 0.5), rgba(250, 193, 69, 0.8));
+    background-size: 200% 200%;
+    border-radius: inherit;
+    animation: gradient-animation 3s ease infinite;
+    pointer-events: none;
+  }
+
+  .animated-gradient-border:focus-within::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--background-app);
+    border-radius: inherit;
+    pointer-events: none;
   }
 
   .animated-gradient-border > * {
     position: relative;
-    z-index: 3;
-  }
-
-  /* Default border */
-  .animated-gradient-border::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    border: 1px solid var(--border-subtle);
-    border-radius: inherit;
     z-index: 1;
-    transition: opacity 0.3s ease;
   }
 
-  /* Gradient border */
-  .animated-gradient-border::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    padding: 1px;
-    background: linear-gradient(45deg, #2e7cf6, rgba(242, 0, 255, 0.5), rgba(250, 193, 69, 0.8));
-    background-size: 200% 200%;
-    border-radius: inherit;
-    -webkit-mask:
-      linear-gradient(#fff 0 0) content-box,
-      linear-gradient(#fff 0 0);
-    mask:
-      linear-gradient(#fff 0 0) content-box,
-      linear-gradient(#fff 0 0);
-    -webkit-mask-composite: xor;
-    mask-composite: exclude;
-    opacity: 0;
-    transition: opacity 0.3s ease;
-    z-index: 2;
+  .animated-gradient-border:focus-within {
+    animation: glow-animation 3s ease infinite;
   }
 
-  .animated-gradient-border.active::after {
-    opacity: 1;
-    animation: gradient-animation 3s ease infinite;
-  }
-
-  .dark .animated-gradient-border::after {
+  .dark .animated-gradient-border:focus-within::before {
     background: linear-gradient(45deg, #2e7cf6, rgba(242, 0, 255, 0.7), rgba(250, 193, 69, 0.9));
-  }
-
-  .animated-gradient-border:hover::before,
-  .animated-gradient-border:focus-within::before {
-    opacity: 0;
-  }
-
-  .animated-gradient-border:hover::after,
-  .animated-gradient-border:focus-within::after {
-    opacity: 1;
-    background-position: 0% 50%;
-  }
-
-  .animated-gradient-border.active::after {
-    opacity: 1;
-    animation: gradient-animation 3s ease infinite;
-  }
-
-  .dark .animated-gradient-border::before {
-    border-color: rgba(255, 255, 255, 0.1);
   }
 
   /* Static gradient effect */
