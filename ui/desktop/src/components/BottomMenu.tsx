@@ -53,16 +53,16 @@ export default function BottomMenu({ hasMessages }) {
   }
 
   return (
-    <div className="flex justify-between items-center text-textSubtle relative bg-bgSubtle border-t border-borderSubtle text-xs pl-4 h-[40px] pb-1 align-middle">
+    <div className="flex justify-between items-center text-textSubtle relative bg-bgSubtle text-xs h-[40px] pb-1 align-middle">
       {/* Directory Chooser - Always visible */}
       <span
-        className="cursor-pointer flex items-center [&>svg]:size-4 folder-model-label"
+        className="cursor-pointer flex items-center [&>svg]:size-4 folder-model-label w-full px-4"
         onClick={async () => {
           console.log('Opening directory chooser');
           if (hasMessages) {
             window.electron.directoryChooser();
           } else {
-            window.electron.directoryChooser(true);
+            window.electron.directoryChooser('true');
           }
         }}
       >
@@ -72,7 +72,7 @@ export default function BottomMenu({ hasMessages }) {
       </span>
 
       {/* Model Selector Dropdown - Only in development */}
-      <div className="relative flex items-center ml-auto mr-4" ref={dropdownRef}>
+      <div className="relative flex items-center ml-auto" ref={dropdownRef}>
         <div
           className="flex items-center cursor-pointer folder-model-label"
           onClick={() => setIsModelMenuOpen(!isModelMenuOpen)}

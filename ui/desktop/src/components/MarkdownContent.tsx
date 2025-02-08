@@ -86,10 +86,22 @@ export default function MarkdownContent({ content, className = '' }: MarkdownCon
         className={`prose prose-xs dark:prose-invert w-full max-w-full break-words
           prose-pre:p-0 prose-pre:m-0 !p-0
           prose-code:break-all prose-code:whitespace-pre-wrap
+          prose-p:text-xs prose-headings:text-sm
           ${className}`}
         components={{
           ...UrlTransform,
-          code({ node, className, children, inlinecode, ...props }) {
+          code({
+            node,
+            className,
+            children,
+            ...props
+          }: {
+            node: any;
+            className?: string;
+            children: any;
+            [key: string]: any;
+          }) {
+            const inlinecode = (props as any).inlinecode;
             const match = /language-(\w+)/.exec(className || 'language-text');
             return inlinecode == 'false' && match ? (
               <CodeBlock language={match[1]}>{String(children).replace(/\n$/, '')}</CodeBlock>

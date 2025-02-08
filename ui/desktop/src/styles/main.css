@@ -16,6 +16,7 @@
   backdrop-filter: blur(10px);
   border: 1px solid #e5e5e5;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  padding: 0.75rem;
 }
 
 .user-message-bg {
@@ -38,6 +39,7 @@
   overflow-wrap: break-word;
   word-break: break-word;
   min-width: 0;
+  padding: 0.75rem;
 }
 
 .goose-message-tool {
@@ -122,7 +124,7 @@
   -webkit-backdrop-filter: blur(10px);
   backdrop-filter: blur(10px);
   border-radius: 0 0 0.75rem 0.75rem;
-  padding: 1rem;
+  padding: 0.5rem;
   overflow: hidden;
   display: flex;
   flex-direction: column;
@@ -547,6 +549,11 @@
   .folder-model-label {
     color: var(--text-subtle);
     font-weight: 500;
+    transition: background-color 0.2s ease;
+  }
+
+  .folder-model-label:hover {
+    background-color: var(--background-subtle);
   }
 
   /* Input Form Styling */

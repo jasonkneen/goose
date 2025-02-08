@@ -18,37 +18,29 @@ export function ToolCallArguments({ args }: ToolCallArgumentsProps) {
       const needsExpansion = value.length > 60;
       const isExpanded = expandedKeys[key];
 
-      if (!needsExpansion) {
-        return (
-          <div className="mb-1">
-            <div className="flex flex-row items-start">
-              <span className="text-sm font-medium text-textSubtle min-w-[140px] pt-0.5">
-                {key}
-              </span>
-              <span className="text-sm text-textStandard font-mono">{value}</span>
-            </div>
-          </div>
-        );
-      }
-
       return (
         <div className="mb-1">
           <div className="flex flex-row">
-            <span className="text-sm font-medium text-textSubtle min-w-[140px]">{key}</span>
+            <span className="text-xs font-medium text-textSubtle min-w-[140px]">{key}</span>
             <div className="flex flex-col flex-1">
               <div className="flex items-center">
-                <span className="text-sm text-textStandard font-mono mr-2">
-                  {isExpanded ? value : value.slice(0, 60) + '...'}
-                </span>
-                <button
-                  onClick={() => toggleKey(key)}
-                  className="text-sm hover:opacity-75 text-textStandard"
-                  title={isExpanded ? 'Show less' : 'Show more'}
-                >
-                  <ChevronUp
-                    className={`h-5 w-5 transition-all origin-center ${!isExpanded ? 'rotate-180' : ''}`}
+                <div className={`flex-1 ${!needsExpansion ? '' : 'mr-2'}`}>
+                  <MarkdownContent
+                    content={isExpanded || !needsExpansion ? value : value.slice(0, 60) + '...'}
+                    className="text-xs text-textStandard"
                   />
-                </button>
+                </div>
+                {needsExpansion && (
+                  <button
+                    onClick={() => toggleKey(key)}
+                    className="text-xs hover:opacity-75 text-textStandard flex-shrink-0"
+                    title={isExpanded ? 'Show less' : 'Show more'}
+                  >
+                    <ChevronUp
+                      className={`h-5 w-5 transition-all origin-center ${!isExpanded ? 'rotate-180' : ''}`}
+                    />
+                  </button>
+                )}
               </div>
             </div>
           </div>
@@ -58,16 +50,20 @@ export function ToolCallArguments({ args }: ToolCallArgumentsProps) {
 
     // Handle non-string values (arrays, objects, etc.)
     const content = Array.isArray(value)
-      ? value.map((item, index) => `${index + 1}. ${JSON.stringify(item)}`).join('\n')
+      ? '```json\n' +
+        value.map((item, index) => `${index + 1}. ${JSON.stringify(item)}`).join('\n') +
+        '\n```'
       : typeof value === 'object' && value !== null
-        ? JSON.stringify(value, null, 2)
-        : String(value);
+        ? '```json\n' + JSON.stringify(value, null, 2) + '\n```'
+        : '```\n' + String(value) + '\n```';
 
     return (
       <div className="mb-1">
         <div className="flex flex-row items-start">
-          <span className="text-sm font-medium text-textSubtle min-w-[140px] pt-0.5">{key}</span>
-          <pre className="text-sm text-textStandard font-mono whitespace-pre-wrap">{content}</pre>
+          <span className="text-xs font-medium text-textSubtle min-w-[140px] pt-0.5">{key}</span>
+          <div className="flex-1">
+            <MarkdownContent content={content} className="text-xs text-textStandard" />
+          </div>
         </div>
       </div>
     );

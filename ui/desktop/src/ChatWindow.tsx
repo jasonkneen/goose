@@ -187,86 +187,90 @@ export function ChatContent({
   };
 
   return (
-    <div className="flex flex-col w-full h-screen items-center justify-center">
-      <div className="relative flex items-center h-[32px] w-full bg-bgSubtle border-b border-borderSubtle">
-        <MoreMenu />
-      </div>
-      <div className="w-full max-w-3xl mx-auto">
-        <Card className="flex flex-col flex-1 rounded-2xl h-[calc(100vh-90px)] w-full bg-bgApp mt-0 border-none relative mb-[58px]">
-          {messages.length === 0 ? (
-            <Splash append={append} />
-          ) : (
-            <ScrollArea ref={scrollRef} className="flex-1 px-3" autoScroll>
-              {messages.map((message) => (
-                <div key={message.id} className="mt-[8px]">
-                  {message.role === 'user' ? (
-                    <UserMessage message={message} />
-                  ) : (
-                    <GooseMessage
-                      message={message}
-                      messages={messages}
-                      metadata={messageMetadata[message.id]}
-                      append={append}
-                    />
-                  )}
-                </div>
-              ))}
-              {/* {isLoading && (
-              <div className="flex items-center justify-center p-4">
-                <div onClick={() => setShowGame(true)} style={{ cursor: 'pointer' }}>
-                </div>
-              </div>
-            )} */}
-              {error && (
-                <div className="flex flex-col items-center justify-center p-4">
-                  <div className="text-red-700 dark:text-red-300 bg-red-400/50 p-3 rounded-lg mb-1">
-                    {error.message || 'Honk! Goose experienced an error while responding'}
-                    {(error as any).status && (
-                      <span className="ml-2">(Status: {(error as any).status})</span>
+    <>
+      <div className="flex flex-col w-full h-screen items-center justify-center">
+        <div className="relative flex items-center h-[32px] w-full bg-bgSubtle border-b border-borderSubtle">
+          <MoreMenu />
+        </div>
+        <div className="w-full max-w-3xl mx-auto">
+          <Card className="flex flex-col flex-1 rounded-2xl h-[calc(100vh-90px)] w-full bg-bgApp mt-0 border-none relative mb-[58px]">
+            {messages.length === 0 ? (
+              <Splash append={append} />
+            ) : (
+              <ScrollArea ref={scrollRef} className="flex-1 px-3" autoScroll>
+                {messages.map((message) => (
+                  <div key={message.id} className="mt-[24px]">
+                    {message.role === 'user' ? (
+                      <UserMessage message={message} />
+                    ) : (
+                      <GooseMessage
+                        message={message}
+                        messages={messages}
+                        metadata={messageMetadata[message.id]}
+                        append={append}
+                      />
                     )}
                   </div>
-                  <div
-                    className="px-3 py-2 mt-1 text-center whitespace-nowrap cursor-pointer text-textStandard border border-borderSubtle hover:bg-bgSubtle rounded-full inline-block transition-all duration-150"
-                    onClick={async () => {
-                      const lastUserMessage = messages.reduceRight(
-                        (found, m) => found || (m.role === 'user' ? m : null),
-                        null
-                      );
-                      if (lastUserMessage) {
-                        append({
-                          role: 'user',
-                          content: lastUserMessage.content,
-                        });
-                      }
-                    }}
-                  >
-                    Retry Last Message
+                ))}
+                {isLoading && (
+                  <div className="flex items-center justify-center p-4">
+                    <div onClick={() => setShowGame(true)} style={{ cursor: 'pointer' }}></div>
                   </div>
-                </div>
-              )}
-              <div className="block h-16" />
-            </ScrollArea>
-          )}
+                )}
+                {error && (
+                  <div className="flex flex-col items-center justify-center p-4">
+                    <div className="text-red-700 dark:text-red-300 bg-red-400/50 p-3 rounded-lg mb-1">
+                      {error.message || 'Honk! Goose experienced an error while responding'}
+                      {(error as any).status && (
+                        <span className="ml-2">(Status: {(error as any).status})</span>
+                      )}
+                    </div>
+                    <div
+                      className="px-3 py-2 mt-1 text-center whitespace-nowrap cursor-pointer text-textStandard border border-borderSubtle hover:bg-bgSubtle rounded-full inline-block transition-all duration-150"
+                      onClick={async () => {
+                        const lastUserMessage = messages.reduceRight(
+                          (found, m) => found || (m.role === 'user' ? m : null),
+                          null
+                        );
+                        if (lastUserMessage) {
+                          append({
+                            role: 'user',
+                            content: lastUserMessage.content,
+                          });
+                        }
+                      }}
+                    >
+                      Retry Last Message
+                    </div>
+                  </div>
+                )}
+                <div className="block h-16" />
+              </ScrollArea>
+            )}
 
-          <div className="relative">
-            {isLoading && <LoadingGoose />}
-            <Input
-              handleSubmit={handleSubmit}
-              disabled={isLoading}
-              isLoading={isLoading}
-              onStop={onStopGoose}
-            />
-          </div>
-        </Card>
-        <div className="fixed bottom-0 left-0 right-0 bg-bgApp border-t border-borderSubtle py-2">
-          <div className="max-w-3xl mx-auto px-4">
+            <div className="relative">
+              {isLoading && <LoadingGoose />}
+              <Input
+                handleSubmit={handleSubmit}
+                disabled={isLoading}
+                isLoading={isLoading}
+                onStop={onStopGoose}
+              />
+            </div>
+          </Card>
+        </div>
+      </div>
+
+      <div className="fixed bottom-0 left-0 right-0 w-screen bg-bgApp border-t border-borderSubtle">
+        <div className="w-full">
+          <div className="max-w-3xl mx-auto py-2">
             <BottomMenu hasMessages={hasMessages} />
           </div>
         </div>
       </div>
 
       {showGame && <FlappyGoose onClose={() => setShowGame(false)} />}
-    </div>
+    </>
   );
 }
 
