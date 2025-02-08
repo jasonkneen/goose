@@ -30,7 +30,7 @@ export default function GooseMessage({ message, metadata, messages, append }: Go
         <div className="flex flex-col items-start gap-2">
           {message.content && (
             <div
-              className={`rounded-2xl rounded-tr-none bg-muted px-4 py-2 text-muted-foreground shadow-sm ${message.toolInvocations ? 'rounded-b-none border-b-0' : ''}`}
+              className={`rounded-2xl rounded-tl-none bg-muted px-4 py-2 text-muted-foreground shadow-sm ${message.toolInvocations ? 'rounded-b-none border-b-0' : ''}`}
             >
               <MarkdownContent content={message.content} className="prose-sm max-w-none" />
             </div>

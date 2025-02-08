@@ -19,8 +19,8 @@ export function ToolCallArguments({ args }: ToolCallArgumentsProps) {
       const isExpanded = expandedKeys[key];
 
       return (
-        <div className="mb-1">
-          <div className="flex flex-row">
+        <div className="mb-1 w-full">
+          <div className="flex flex-row w-full">
             <span className="text-xs font-medium text-textSubtle min-w-[140px]">{key}</span>
             <div className="flex flex-col flex-1">
               <div className="flex items-center">
@@ -58,8 +58,8 @@ export function ToolCallArguments({ args }: ToolCallArgumentsProps) {
         : '```\n' + String(value) + '\n```';
 
     return (
-      <div className="mb-1">
-        <div className="flex flex-row items-start">
+      <div className="mb-1 w-full">
+        <div className="flex flex-row items-start w-full">
           <span className="text-xs font-medium text-textSubtle min-w-[140px] pt-0.5">{key}</span>
           <div className="flex-1">
             <MarkdownContent content={content} className="text-xs text-textStandard" />
@@ -70,9 +70,11 @@ export function ToolCallArguments({ args }: ToolCallArgumentsProps) {
   };
 
   return (
-    <div className="space-y-2">
+    <div className="space-y-2 w-full">
       {Object.entries(args).map(([key, value]) => (
-        <div key={key}>{renderValue(key, value)}</div>
+        <div key={key} className="w-full">
+          {renderValue(key, value)}
+        </div>
       ))}
     </div>
   );

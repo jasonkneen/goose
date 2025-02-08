@@ -190,7 +190,9 @@ export function ChatContent({
     <>
       <div className="flex flex-col w-full h-screen items-center justify-center">
         <div className="relative flex items-center h-[32px] w-full bg-bgSubtle border-b border-borderSubtle">
-          <MoreMenu />
+          <div className="w-full max-w-3xl mx-auto">
+            <MoreMenu />
+          </div>
         </div>
         <div className="w-full max-w-3xl mx-auto">
           <Card className="flex flex-col flex-1 rounded-2xl h-[calc(100vh-90px)] w-full bg-bgApp mt-0 border-none relative mb-[58px]">
@@ -279,7 +281,7 @@ export default function ChatWindow() {
   const openNewChatWindow = () => {
     window.electron.createChatWindow();
   };
-  const { switchModel, currentModel } = useModel(); // Access switchModel via useModel
+  const { switchModel } = useModel(); // Access switchModel via useModel
   const { addRecentModel } = useRecentModels(); // Access addRecentModel from useRecentModels
 
   // Add keyboard shortcut handler

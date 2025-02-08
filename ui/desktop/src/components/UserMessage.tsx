@@ -13,7 +13,7 @@ export default function UserMessage({ message }) {
       <Avatar role="user" />
       <div className="flex-1 space-y-2 overflow-hidden">
         <div className="flex flex-col items-start gap-2">
-          <div className="rounded-2xl rounded-tl-none bg-primary px-4 py-2 text-white shadow-md">
+          <div className="rounded-2xl rounded-tl-none bg-primary dark:bg-[#252b33] px-4 py-2 text-white shadow-md">
             <MarkdownContent
               content={message.content}
               className="prose-sm prose-invert max-w-none"

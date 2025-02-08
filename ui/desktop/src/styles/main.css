@@ -39,7 +39,9 @@
 .dark .user-message-bg .message-content {
   background-color: var(--dark-grey-30);
   border-color: rgba(255, 255, 255, 0.15);
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.05),
+    0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 .goose-message-content {
@@ -107,8 +109,10 @@
 .dark .panel {
   background: var(--dark-grey-25);
   color: var(--dark-grey-90);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.05),
+    0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 /* Dark mode overrides */
@@ -125,19 +129,23 @@
   border: 1px solid rgba(255, 255, 255, 0.15);
   -webkit-backdrop-filter: blur(10px);
   backdrop-filter: blur(10px);
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.05),
+    0 4px 6px rgba(0, 0, 0, 0.2);
 }
 
 /* Specific dark mode background colors */
 .dark .goose-message-content {
   background-color: rgb(34, 39, 45);
   color: var(--dark-grey-90);
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.25);
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.05),
+    0 4px 6px rgba(0, 0, 0, 0.25);
 }
 
 .dark .goose-message-tool {
   background-color: rgb(22, 24, 26);
-  border-color: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.15);
   border-width: 1px;
   -webkit-backdrop-filter: blur(10px);
   backdrop-filter: blur(10px);
@@ -149,6 +157,9 @@
   gap: 0.5rem;
   min-width: 0;
   width: 100%;
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.05),
+    0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 .dark .goose-message-tool .card {
@@ -157,14 +168,18 @@
   margin: 0;
   /* Remove margin since we're using gap */
   border-radius: 0 0 0.75rem 0.75rem;
-  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.24);
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.05),
+    0 3px 6px rgba(0, 0, 0, 0.24);
 }
 
 .dark .card {
   background-color: rgb(34, 39, 45);
   color: var(--dark-grey-90);
   border-radius: 0 0 0.75rem 0.75rem;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.05),
+    0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 /* Cash Sans Font */
@@ -651,7 +666,8 @@
   }
 
   .dark .chat-divider {
-    background-color: rgba(255, 255, 255, 0.1);
+    background-color: rgba(255, 255, 255, 0.15);
+    box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.05);
   }
 
   .help-question {
@@ -667,7 +683,8 @@
   }
 
   .dark .help-section {
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    border-top: 1px solid rgba(255, 255, 255, 0.15);
+    box-shadow: 0 -1px 0 rgba(255, 255, 255, 0.05);
   }
 
   .dark .help-question {
@@ -678,14 +695,17 @@
     background-color: #1a1f28;
     color: #cccccc;
     font-weight: bold;
+    border-color: rgba(255, 255, 255, 0.15);
+    box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.05);
   }
 
   .dark .input-box {
     background-color: var(--dark-grey-15);
     color: var(--constant-white);
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    border-top: 1px solid rgba(255, 255, 255, 0.15);
     -webkit-backdrop-filter: blur(8px);
     backdrop-filter: blur(8px);
+    box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.05);
   }
   .dark .folder-model-label {
     color: rgba(255, 255, 255, 0.7);
