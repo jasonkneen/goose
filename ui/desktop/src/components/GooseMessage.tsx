@@ -29,9 +29,9 @@ export default function GooseMessage({ message, metadata, messages, append }: Go
       <div className="flex flex-col w-full">
         {message.content && (
           <div
-            className={`goose-message-content bg-bgSubtle rounded-2xl px-4 py-1 ${message.toolInvocations ? 'rounded-b-none' : ''} text-textStandard text-xs`}
+            className={`goose-message-content bg-bgSubtle rounded-2xl px-4 py-1 ${message.toolInvocations ? 'rounded-b-none' : ''} text-textStandard text-base`}
           >
-            <MarkdownContent content={message.content} className="text-xs" />
+            <MarkdownContent content={message.content} className="text-base" />
           </div>
         )}
 

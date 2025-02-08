@@ -86,7 +86,7 @@ export default function MarkdownContent({ content, className = '' }: MarkdownCon
         className={`prose prose-xs dark:prose-invert w-full max-w-full break-words
           prose-pre:p-0 prose-pre:m-0 !p-0
           prose-code:break-all prose-code:whitespace-pre-wrap
-          prose-p:text-xs prose-headings:text-sm
+          prose-p:text-base prose-headings:text-lg
           ${className}`}
         components={{
           ...UrlTransform,
@@ -117,7 +117,7 @@ export default function MarkdownContent({ content, className = '' }: MarkdownCon
           // h3: 'div',
           h3(props) {
             const { node, ...rest } = props;
-            return <div className="text-textStandard text-sm" {...rest} />;
+            return <div className="text-textStandard text-lg" {...rest} />;
           },
         }}
       >

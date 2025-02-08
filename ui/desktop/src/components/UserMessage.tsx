@@ -13,7 +13,7 @@ export default function UserMessage({ message }) {
       <Avatar role="user" />
       <div className="flex-col flex-1">
         <div className="flex text-white rounded-xl rounded-br-none py-1 px-3 message-content font-medium">
-          <MarkdownContent content={message.content} className="text-white text-xs" />
+          <MarkdownContent content={message.content} className="text-white text-base" />
         </div>
 
         {/* TODO(alexhancock): Re-enable link previews once styled well again */}
