@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Glow Effect Demo</title>
+    <style>
+        :root {
+            --primary-glow: rgba(96, 165, 250, 0.15);
+            --secondary-glow: rgba(59, 130, 246, 0.08);
+            --accent-glow-1: rgba(99, 102, 241, 0.07);
+            --accent-glow-2: rgba(168, 85, 247, 0.07);
+            --animation-speed: 10s;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            background: #1a1a1a;
+            color: white;
+            font-family: system-ui, -apple-system, sans-serif;
+        }
+
+        .glow-container {
+            position: relative;
+            width: 100%;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            box-sizing: border-box;
+        }
+
+        .glow-container[data-style="single"] {
+            background: radial-gradient(
+                2000px circle at top left,
+                var(--primary-glow),
+                color-mix(in srgb, var(--primary-glow) 70%, transparent),
+                color-mix(in srgb, var(--primary-glow) 40%, transparent),
+                transparent 80%
+            );
+        }
+
+        .glow-container[data-style="dual"] {
+            background: radial-gradient(
+                2000px circle at top left,
+                var(--primary-glow),
+                color-mix(in srgb, var(--primary-glow) 60%, var(--secondary-glow) 40%),
+                var(--secondary-glow),
+                color-mix(in srgb, var(--secondary-glow) 30%, transparent),
+                transparent 80%
+            );
+        }
+
+        .glow-container[data-style="multi"] {
+            background: 
+                radial-gradient(
+                    2000px circle at top left,
+                    var(--primary-glow),
+                    color-mix(in srgb, var(--primary-glow) 60%, var(--secondary-glow) 40%),
+                    var(--secondary-glow),
+                    color-mix(in srgb, var(--secondary-glow) 30%, transparent),
+                    transparent 80%
+                ),
+                linear-gradient(
+                    to bottom right,
+                    var(--accent-glow-1),
+                    color-mix(in srgb, var(--accent-glow-1) 50%, var(--accent-glow-2) 50%),
+                    var(--accent-glow-2),
+                    transparent 70%
+                );
+        }
+
+        .glow-container[data-style="rainbow"] {
+            background: 
+                radial-gradient(
+                    2000px circle at top left,
+                    rgba(255, 0, 0, 0.15),
+                    rgba(255, 165, 0, 0.12),
+                    rgba(255, 255, 0, 0.1),
+                    transparent 70%
+                );
+            animation: rainbow var(--animation-speed) linear infinite;
+        }
+
+        @keyframes rainbow {
+            0% { filter: hue-rotate(0deg); }
+            100% { filter: hue-rotate(360deg); }
+        }
+
+        .glow-container[data-animation="pulse"] {
+            animation: pulse 3s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 0.7; }
+            50% { opacity: 1; }
+            100% { opacity: 0.7; }
+        }
+
+        .controls {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(0, 0, 0, 0.8);
+            padding: 1rem;
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .controls label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #fff;
+        }
+
+        .controls select, .controls input[type="color"] {
+            padding: 0.5rem;
+            border-radius: 4px;
+            border: 1px solid #444;
+            background: #222;
+            color: #fff;
+        }
+
+        .content {
+            text-align: center;
+            max-width: 600px;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        p {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            opacity: 0.8;
+        }
+    </style>
+</head>
+<body>
+    <div id="container" class="glow-container" data-style="single" data-animation="none">
+        <div class="content">
+            <h1>Glow Effect Demo</h1>
+            <p>This demonstrates the subtle glow effect with various styles and animations. Use the controls in the top-right corner to customize the appearance.</p>
+        </div>
+        <div class="controls">
+            <div>
+                <label for="style">Style:</label>
+                <select id="style" onchange="updateStyle(this.value)">
+                    <option value="single">Single</option>
+                    <option value="dual">Dual</option>
+                    <option value="multi">Multi</option>
+                    <option value="rainbow">Rainbow</option>
+                </select>
+            </div>
+            <div>
+                <label for="animation">Animation:</label>
+                <select id="animation" onchange="updateAnimation(this.value)">
+                    <option value="none">None</option>
+                    <option value="pulse">Pulse</option>
+                </select>
+            </div>
+            <div>
+                <label for="primaryColor">Primary Color:</label>
+                <input type="color" id="primaryColor" value="#60a5fa" onchange="updateColor(this.value, '--primary-glow', 0.15)">
+            </div>
+            <div>
+                <label for="secondaryColor">Secondary Color:</label>
+                <input type="color" id="secondaryColor" value="#3b82f6" onchange="updateColor(this.value, '--secondary-glow', 0.08)">
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function updateStyle(style) {
+            document.getElementById('container').dataset.style = style;
+        }
+
+        function updateAnimation(animation) {
+            document.getElementById('container').dataset.animation = animation;
+        }
+
+        function updateColor(color, variable, opacity) {
+            const rgb = hexToRgb(color);
+            document.documentElement.style.setProperty(
+                variable,
+                `rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, ${opacity})`
+            );
+        }
+
+        function hexToRgb(hex) {
+            const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+            return result ? {
+                r: parseInt(result[1], 16),
+                g: parseInt(result[2], 16),
+                b: parseInt(result[3], 16)
+            } : { r: 0, g: 0, b: 0 };
+        }
+    </script>
+</body>
+</html>
