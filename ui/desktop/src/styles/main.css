@@ -1,4 +1,6 @@
 /* stylelint-disable at-rule-no-unknown, rule-empty */
+@import './glow.css';
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -729,6 +731,48 @@
   left: 0;
   z-index: 50;
 }
+
+/* Utility Classes */
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.dynamic-textarea {
+  min-height: 1rem;
+  max-height: 240px;
+  /* 10 * 24px */
+  overflow-y: auto;
+}
+
+.dynamic-svg {
+  height: 100%;
+  width: 100%;
+}
+
+/* Browser Compatibility Note:
+   -webkit-app-region is required for desktop app window dragging.
+   While not supported in some browsers, it's essential for desktop functionality. */
+
+/* Utility Classes */
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.dynamic-textarea {
+  min-height: 1rem;
+  max-height: 240px;
+  /* 10 * 24px */
+  overflow-y: auto;
+}
+
+.dynamic-svg {
+  height: 100%;
+  width: 100%;
+}
+
+/* Browser Compatibility Note:
+   -webkit-app-region is required for desktop app window dragging.
+   While not supported in some browsers, it's essential for desktop functionality. */
 
 /* Fade In Keyframes */
 @keyframes fadeIn {

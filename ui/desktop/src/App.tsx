@@ -9,6 +9,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from 'react-toastify';
 import { ModelProvider } from './components/settings/models/ModelContext';
 import { ActiveKeysProvider } from './components/settings/api_keys/ActiveKeysContext';
+import { GlowProvider } from './components/settings/GlowProvider';
 import { extractExtensionName } from './components/settings/extensions/utils';
 
 export default function App() {
@@ -102,18 +103,20 @@ export default function App() {
           isSubmitting={isInstalling}
         />
       )}
-      <ModelProvider>
-        <ActiveKeysProvider>
-          {isLauncher ? <LauncherWindow /> : <ChatWindow />}
-          <ToastContainer
-            aria-label="Toast notifications"
-            position="top-right"
-            autoClose={3000}
-            closeOnClick
-            pauseOnHover
-          />
-        </ActiveKeysProvider>
-      </ModelProvider>
+      <GlowProvider>
+        <ModelProvider>
+          <ActiveKeysProvider>
+            {isLauncher ? <LauncherWindow /> : <ChatWindow />}
+            <ToastContainer
+              aria-label="Toast notifications"
+              position="top-right"
+              autoClose={3000}
+              closeOnClick
+              pauseOnHover
+            />
+          </ActiveKeysProvider>
+        </ModelProvider>
+      </GlowProvider>
     </>
   );
 }

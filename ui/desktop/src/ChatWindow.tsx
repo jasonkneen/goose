@@ -1,4 +1,6 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState, useCallback } from 'react';
+import './styles/glow.css';
+import { useLocalStorage } from './hooks/useLocalStorage';
 import { Message, useChat } from './ai-sdk-fork/useChat';
 import { getApiUrl, getSecretKey } from './config';
 import BottomMenu from './components/BottomMenu';
@@ -22,6 +24,7 @@ import { useRecentModels } from './components/settings/models/RecentModels';
 import { createSelectedModel } from './components/settings/models/utils';
 import { getDefaultModel } from './components/settings/models/hardcoded_stuff';
 import Splash from './components/Splash';
+import { Settings as SettingsType } from './components/settings/types';
 
 export interface Chat {
   id: number;
@@ -216,7 +219,7 @@ export function ChatContent({
                 ))}
                 {isLoading && (
                   <div className="flex items-center justify-center p-4">
-                    <div onClick={() => setShowGame(true)} style={{ cursor: 'pointer' }}></div>
+                    <div onClick={() => setShowGame(true)} className="cursor-pointer"></div>
                   </div>
                 )}
                 {error && (
@@ -325,6 +328,93 @@ export default function ChatWindow() {
   const [selectedProvider, setSelectedProvider] = useState<string | Provider | null>(null);
   const [showWelcomeModal, setShowWelcomeModal] = useState(true);
 
+  // Get settings from localStorage
+  const [settings, setSettings] = useState<SettingsType>(() => {
+    const saved = localStorage.getItem('user_settings');
+    const defaultSettings: SettingsType = {
+      models: [
+        {
+          id: 'gpt4',
+          name: 'GPT 4.0',
+          description: 'Standard config',
+          enabled: false,
+        },
+        {
+          id: 'gpt4lite',
+          name: 'GPT 4.0 lite',
+          description: 'Standard config',
+          enabled: false,
+        },
+        {
+          id: 'claude',
+          name: 'Claude',
+          description: 'Standard config',
+          enabled: true,
+        },
+      ],
+      extensions: [],
+      glow: {
+        enabled: false,
+        style: 'single',
+        animation: 'none',
+        primaryColor: '#60a5fa',
+        primaryIntensity: 15,
+        secondaryColor: '#3b82f6',
+        secondaryIntensity: 8,
+      },
+    };
+    return saved ? { ...defaultSettings, ...JSON.parse(saved) } : defaultSettings;
+  });
+
+  // Listen for settings updates
+  useEffect(() => {
+    const handleSettingsUpdate = () => {
+      const saved = localStorage.getItem('user_settings');
+      if (saved) {
+        setSettings(JSON.parse(saved));
+      }
+    };
+
+    window.addEventListener('settings-updated', handleSettingsUpdate);
+    return () => {
+      window.removeEventListener('settings-updated', handleSettingsUpdate);
+    };
+  }, []);
+
+  // Update CSS variables when glow settings change
+  useEffect(() => {
+    const root = document.documentElement;
+    const { glow } = settings;
+
+    if (glow.enabled) {
+      const rgb1 = hexToRgb(glow.primaryColor);
+      const rgb2 = hexToRgb(glow.secondaryColor);
+
+      root.style.setProperty(
+        '--primary-glow',
+        `rgba(${rgb1.r}, ${rgb1.g}, ${rgb1.b}, ${glow.primaryIntensity / 100})`
+      );
+      root.style.setProperty(
+        '--secondary-glow',
+        `rgba(${rgb2.r}, ${rgb2.g}, ${rgb2.b}, ${glow.secondaryIntensity / 100})`
+      );
+    } else {
+      root.style.removeProperty('--primary-glow');
+      root.style.removeProperty('--secondary-glow');
+    }
+  }, [settings.glow]);
+
+  const hexToRgb = (hex: string) => {
+    const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+    return result
+      ? {
+          r: parseInt(result[1], 16),
+          g: parseInt(result[2], 16),
+          b: parseInt(result[3], 16),
+        }
+      : { r: 0, g: 0, b: 0 };
+  };
+
   // Add this useEffect to track changes and update welcome state
   const toggleMode = () => {
     const newMode = mode === 'expanded' ? 'compact' : 'expanded';
@@ -417,7 +507,7 @@ export default function ChatWindow() {
 
   // Only render ChatLayout if not showing welcome screen
   return (
-    <div>
+    <>
       <ChatLayout mode={mode}>
         <ChatRoutes
           chats={chats}
@@ -428,6 +518,6 @@ export default function ChatWindow() {
           setWorking={setWorking}
         />
       </ChatLayout>
-    </div>
+    </>
   );
 }

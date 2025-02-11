@@ -3,6 +3,8 @@ import { ScrollArea } from '../ui/scroll-area';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { Settings as SettingsType } from './types';
+import { GlowDialog } from './GlowDialog';
+import { useGlow } from './GlowProvider';
 import {
   FullExtensionConfig,
   addExtension,
@@ -21,7 +23,7 @@ const EXTENSIONS_DESCRIPTION =
 
 const EXTENSIONS_SITE_LINK = 'https://block.github.io/goose/v1/extensions/';
 
-const DEFAULT_SETTINGS: SettingsType = {
+const DEFAULT_SETTINGS: Omit<SettingsType, 'glow'> = {
   models: [
     {
       id: 'gpt4',
@@ -49,11 +51,12 @@ const DEFAULT_SETTINGS: SettingsType = {
 export default function Settings() {
   const navigate = useNavigate();
   const location = useLocation();
+  const [showGlowDialog, setShowGlowDialog] = useState(false);
+  const { settings: glowSettings, updateSettings: updateGlowSettings } = useGlow();
 
-  const [settings, setSettings] = React.useState<SettingsType>(() => {
+  const [settings, setSettings] = React.useState(() => {
     const saved = localStorage.getItem('user_settings');
-    window.electron.logInfo('Settings: ' + saved);
-    let currentSettings = saved ? JSON.parse(saved) : DEFAULT_SETTINGS;
+    let currentSettings = saved ? { ...DEFAULT_SETTINGS, ...JSON.parse(saved) } : DEFAULT_SETTINGS;
 
     // Ensure built-in extensions are included if not already present
     BUILT_IN_EXTENSIONS.forEach((builtIn) => {
@@ -75,24 +78,13 @@ export default function Settings() {
 
   // Persist settings changes
   React.useEffect(() => {
-    localStorage.setItem('user_settings', JSON.stringify(settings));
-  }, [settings]);
-
-  // Listen for settings updates from extension storage
-  useEffect(() => {
-    const handleSettingsUpdate = (_: any) => {
-      const saved = localStorage.getItem('user_settings');
-      if (saved) {
-        let currentSettings = JSON.parse(saved);
-        setSettings(currentSettings);
-      }
+    const savedSettings = {
+      ...settings,
+      glow: glowSettings,
     };
-
-    window.electron.on('settings-updated', handleSettingsUpdate);
-    return () => {
-      window.electron.off('settings-updated', handleSettingsUpdate);
-    };
-  }, []);
+    localStorage.setItem('user_settings', JSON.stringify(savedSettings));
+    window.dispatchEvent(new CustomEvent('settings-updated'));
+  }, [settings, glowSettings]);
 
   // Handle URL parameters for auto-opening extension configuration
   useEffect(() => {
@@ -164,20 +156,6 @@ export default function Settings() {
     }
   };
 
-  const handleNavClick = (section: string, e: React.MouseEvent) => {
-    e.preventDefault();
-    const scrollArea = document.querySelector('[data-radix-scroll-area-viewport]');
-    const element = document.getElementById(section.toLowerCase());
-
-    if (scrollArea && element) {
-      const topPos = element.offsetTop;
-      scrollArea.scrollTo({
-        top: topPos,
-        behavior: 'smooth',
-      });
-    }
-  };
-
   const handleExtensionConfigSubmit = () => {
     setExtensionBeingConfigured(null);
     // Clear the URL parameters after configuration
@@ -206,6 +184,18 @@ export default function Settings() {
           {/* Content Area */}
           <div className="flex-1 py-8 pt-[20px]">
             <div className="space-y-8">
+              <section id="appearance">
+                <div className="flex justify-between items-center mb-6 border-b border-borderSubtle px-8">
+                  <h2 className="text-xl font-medium text-textStandard">Appearance</h2>
+                  <button
+                    onClick={() => setShowGlowDialog(true)}
+                    className="text-indigo-500 hover:text-indigo-600 text-sm"
+                  >
+                    Background Effect
+                  </button>
+                </div>
+              </section>
+
               <section id="models">
                 <div className="flex justify-between items-center mb-6 border-b border-borderSubtle px-8">
                   <h2 className="text-xl font-medium text-textStandard">Models</h2>
@@ -230,7 +220,6 @@ export default function Settings() {
                       className="text-indigo-500 hover:text-indigo-600 text-sm"
                       title="Add Manually"
                     >
-                      {/* <Plus className="h-4 w-4" /> */}
                       Add
                     </button>
 
@@ -255,7 +244,7 @@ export default function Settings() {
                       <ExtensionItem
                         key={ext.id}
                         {...ext}
-                        canConfigure={true} // Ensure gear icon always appears
+                        canConfigure={true}
                         onToggle={handleExtensionToggle}
                         onConfigure={(extension) => setExtensionBeingConfigured(extension)}
                       />
@@ -304,10 +293,15 @@ export default function Settings() {
               extensions: [...prev.extensions, extension],
             }));
             setIsManualModalOpen(false);
-          } else {
-            // TODO - Anything for the UI state beyond validation?
           }
         }}
+      />
+
+      <GlowDialog
+        open={showGlowDialog}
+        onOpenChange={setShowGlowDialog}
+        settings={glowSettings}
+        onChange={updateGlowSettings}
       />
     </div>
   );

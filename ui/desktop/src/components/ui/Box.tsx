@@ -4,12 +4,11 @@ export default function Box({ size, className }: { size: number; className?: str
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      style={{ height: size, width: size }}
+      className={`dynamic-svg ${className || ''} gradient-stroke`}
       width={size}
       height={size}
       viewBox={`0 0 ${size} ${size}`}
       fill="none"
-      className={`${className} gradient-stroke`}
     >
       <defs>
         <linearGradient

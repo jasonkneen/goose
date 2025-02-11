@@ -88,12 +88,7 @@ export default function Input({
         disabled={disabled}
         ref={textAreaRef}
         rows={1}
-        style={{
-          minHeight: `${minHeight}px`,
-          maxHeight: `${maxHeight}px`,
-          overflowY: 'auto',
-        }}
-        className="flex-1 resize-none bg-transparent px-2 py-1.5 outline-none disabled:opacity-50 text-black dark:text-white"
+        className="dynamic-textarea flex-1 resize-none bg-transparent px-2 py-1.5 outline-none disabled:opacity-50 text-black dark:text-white"
       />
       <div className="flex items-center gap-2">
         <Button
