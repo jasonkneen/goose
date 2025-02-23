@@ -1,8 +1,64 @@
 import { processCustomChatResponse } from './process-custom-chat-response';
 import { IdGenerator, JSONValue, Message, UseChatOptions } from '@ai-sdk/ui-utils';
+import { CopilotLanguageServer } from '@github/copilot-language-server-sdk'; // P3671
 
 // use function to allow for mocking in tests:
 const getOriginalFetch = () => fetch;
+
+async function callCopilotLanguageServerApi({ // Pb6fe
+  api,
+  body,
+  headers,
+  abortController,
+  onResponse,
+  onUpdate,
+  onFinish,
+  onToolCall,
+  generateId,
+  fetch = getOriginalFetch(),
+}: {
+  api: string;
+  body: Record<string, any>;
+  headers: HeadersInit | undefined;
+  abortController: (() => AbortController | null) | undefined;
+  onResponse: ((response: Response) => void | Promise<void>) | undefined;
+  onUpdate: (newMessages: Message[], data: JSONValue[] | undefined) => void;
+  onFinish: UseChatOptions['onFinish'];
+  onToolCall: UseChatOptions['onToolCall'];
+  generateId: IdGenerator;
+  fetch: ReturnType<typeof getOriginalFetch> | undefined;
+}) {
+  const copilotServer = new CopilotLanguageServer(api, { headers, fetch });
+  const response = await copilotServer.sendRequest(body, abortController?.()?.signal);
+
+  if (onResponse) {
+    try {
+      await onResponse(response);
+    } catch (err) {
+      throw err;
+    }
+  }
+
+  if (!response.ok) {
+    throw new Error((await response.text()) ?? 'Failed to fetch the chat response.');
+  }
+
+  if (!response.body) {
+    throw new Error('The response body is empty.');
+  }
+
+  await processCustomChatResponse({
+    stream: response.body,
+    update: onUpdate,
+    onToolCall,
+    onFinish({ message, finishReason, usage }) {
+      if (onFinish && message != null) {
+        onFinish(message, { usage, finishReason });
+      }
+    },
+    generateId,
+  });
+}
 
 export async function callCustomChatApi({
   api,
@@ -33,6 +89,21 @@ export async function callCustomChatApi({
   generateId: IdGenerator;
   fetch: ReturnType<typeof getOriginalFetch> | undefined;
 }) {
+  if (api.includes('copilot')) { // Pffab
+    return callCopilotLanguageServerApi({
+      api,
+      body,
+      headers,
+      abortController,
+      onResponse,
+      onUpdate,
+      onFinish,
+      onToolCall,
+      generateId,
+      fetch,
+    });
+  }
+
   const response = await fetch(api, {
     method: 'POST',
     body: JSON.stringify(body),

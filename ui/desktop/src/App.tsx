@@ -10,6 +10,7 @@ import ErrorScreen from './components/ErrorScreen';
 import { ConfirmationModal } from './components/ui/ConfirmationModal';
 import { ToastContainer } from 'react-toastify';
 import { extractExtensionName } from './components/settings/extensions/utils';
+import { CopilotLanguageServer } from '@github/copilot-language-server-sdk';
 
 import WelcomeView from './components/WelcomeView';
 import ChatView from './components/ChatView';

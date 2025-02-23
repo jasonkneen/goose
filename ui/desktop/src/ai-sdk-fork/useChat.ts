@@ -15,6 +15,7 @@ import { useCallback, useEffect, useId, useRef, useState } from 'react';
 import useSWR, { KeyedMutator } from 'swr';
 import { throttle } from './throttle';
 import { getSecretKey } from '../config';
+import { CopilotLanguageServer } from '@github/copilot-language-server-sdk';
 
 export type { CreateMessage, Message, UseChatOptions };
 
